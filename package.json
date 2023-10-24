@@ -27,7 +27,7 @@
   },
   "scripts": {
     "build": "npm run lint && tsc",
-    "lint": "eslint \"./**.ts\" --fix",
+    "lint": "eslint \"./src/**/*.ts\" --fix",
     "prepublish": "npm run build"
   },
   "repository": {
