@@ -2,6 +2,29 @@
   "name": "@squarecloud/api-types",
   "version": "1.0.0",
   "description": "Typings for Square Cloud API",
+  "homepage": "https://github.com/squarecloudofc/api-types#readme",
+  "exports": {
+    "./v2": {
+			"types": "./v2.d.ts",
+			"require": "./v2.js",
+			"import": "./v2.mjs"
+		},
+    "./utils": {
+      "types": "./utils.d.ts",
+      "require": "./utils.js",
+      "import": "./utils.mjs"
+    },
+    "./payloads/v*": {
+      "types": "./payloads/v*/index.d.ts",
+      "require": "./payloads/v*/index.js",
+      "import": "./payloads/v*/index.mjs"
+    },
+    "./rest/v*": {
+      "types": "./rest/v*/index.d.ts",
+      "require": "./rest/v*/index.js",
+      "import": "./rest/v*/index.mjs"
+    }
+  },
   "scripts": {
     "build": "npm run lint && tsc",
     "lint": "eslint \"./**.ts\" --fix",
@@ -24,7 +47,10 @@
   "bugs": {
     "url": "https://github.com/squarecloudofc/api-types/issues"
   },
-  "homepage": "https://github.com/squarecloudofc/api-types#readme",
+  "files": [
+		"{payloads}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
+		"{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
+	],
   "devDependencies": {
     "@squarecloud/eslint-config": "^0.1.6",
     "@types/node": "^20.8.8",
