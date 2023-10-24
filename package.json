@@ -1,6 +1,6 @@
 {
   "name": "@squarecloud/api-types",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Typings for Square Cloud API",
   "homepage": "https://github.com/squarecloudofc/api-types#readme",
   "exports": {
@@ -55,6 +55,7 @@
     "{common,utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
   ],
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@squarecloud/eslint-config": "^0.1.6",
     "@types/node": "^20.8.8",
     "eslint": "^8.52.0",
