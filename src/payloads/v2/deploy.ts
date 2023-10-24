@@ -14,16 +14,3 @@ export interface APIDeploy {
 }
 
 export type APIDeployPayload = APICommonPayload<APIDeploy[]>;
-
-/**
- * /apps/{app_id}/deploy/webhooks
- */
-
-/**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/webhooks
- */
-export interface APIGithubWebhook {
-  webhook: string;
-}
-
-export type APIGithubWebhookPayload = APICommonPayload<APIGithubWebhook>;
