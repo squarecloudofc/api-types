@@ -22,5 +22,12 @@
   "bugs": {
     "url": "https://github.com/squarecloudofc/api-types/issues"
   },
-  "homepage": "https://github.com/squarecloudofc/api-types#readme"
+  "homepage": "https://github.com/squarecloudofc/api-types#readme",
+  "devDependencies": {
+    "@squarecloud/eslint-config": "^0.1.6",
+    "@types/node": "^20.8.8",
+    "eslint": "^8.52.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "typescript": "^5.2.2"
+  }
 }
