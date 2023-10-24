@@ -6,6 +6,10 @@ export interface APICommonPayload<TResponse> {
   code?: string;
 }
 
-export type APICommonPayloadStatusOnly = {
+export interface APICommonPayloadStatusOnly {
   status: APICommonPayloadStatus;
-};
+}
+
+export interface APICommonHeaders {
+  Authorization: string;
+}
