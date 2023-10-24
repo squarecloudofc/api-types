@@ -5,10 +5,10 @@
   "homepage": "https://github.com/squarecloudofc/api-types#readme",
   "exports": {
     "./v2": {
-			"types": "./build/v2.d.ts",
-			"require": "./build/v2.js",
-			"import": "./build/v2.mjs"
-		},
+      "types": "./build/v2.d.ts",
+      "require": "./build/v2.js",
+      "import": "./build/v2.mjs"
+    },
     "./utils": {
       "types": "./build/utils.d.ts",
       "require": "./build/utils.js",
@@ -48,9 +48,9 @@
     "url": "https://github.com/squarecloudofc/api-types/issues"
   },
   "files": [
-		"{payloads}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
-		"{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
-	],
+    "{payloads}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
+    "{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
+  ],
   "devDependencies": {
     "@squarecloud/eslint-config": "^0.1.6",
     "@types/node": "^20.8.8",
