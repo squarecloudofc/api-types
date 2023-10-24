@@ -32,7 +32,8 @@
     "esm": "node ./scripts/esm.mjs",
     "tsc": "tsc",
     "prepublishOnly": "run-s clean lint build",
-    "postpublish": "npm run clean"
+    "postpublish": "npm run clean",
+    "release": "npm run build && changeset publish"
   },
   "repository": {
     "type": "git",
