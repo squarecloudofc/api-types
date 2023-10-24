@@ -27,6 +27,7 @@
   },
   "scripts": {
     "build": "npm run lint && tsc && npm run esm",
+    "clean": "rimraf {payloads,rest}/**/*.{js,mjs,d.ts,*map} {common,utils,v*}.{js,mjs,d.ts,*map}",
     "lint": "eslint \"./**/*.ts\" --fix",
     "prepublish": "npm run build",
     "esm": "node ./scripts/esm.mjs"
@@ -57,6 +58,7 @@
     "eslint": "^8.52.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "gen-esm-wrapper": "^1.1.3",
+    "rimraf": "^5.0.5",
     "typescript": "^5.2.2"
   }
 }

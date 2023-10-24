@@ -29,6 +29,11 @@ common.*map
 common.d.ts
 common.mjs
 
+utils.js
+utils.*map
+utils.d.ts
+utils.mjs
+
 v*.js
 v*.*map
 v*.d.ts
