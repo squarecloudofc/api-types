@@ -1,4 +1,4 @@
-import { APICommonPayload } from "./common";
+import { APICommonPayload } from "../../common";
 
 /**
  * /apps/{app_id}/deploy/list
