@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Typings for Square Cloud API",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run lint && tsc",
+    "lint": "eslint \"./**.ts\" --fix",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
