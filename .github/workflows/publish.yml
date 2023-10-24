@@ -11,15 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.x
-          cache: "npm"
+          node-version: 18.x 
+          cache: "pnpm"
 
-      - run: npm install
+      - run: pnpm install --frozen-lockfile
       - name: "Create Release Pull Request or Publish"
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: npm run build
+          publish: pnpm run build
   
