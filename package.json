@@ -1,0 +1,26 @@
+{
+  "name": "@squarecloud/api-types",
+  "version": "1.0.0",
+  "description": "Typings for Square Cloud API",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squarecloudofc/api-types.git"
+  },
+  "keywords": [
+    "square",
+    "squarecloud",
+    "api",
+    "squarecloud",
+    "api",
+    "types"
+  ],
+  "author": "João Tonaco <joaotonaco@squarecloud.app>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/squarecloudofc/api-types/issues"
+  },
+  "homepage": "https://github.com/squarecloudofc/api-types#readme"
+}
