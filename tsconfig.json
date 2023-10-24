@@ -13,8 +13,13 @@
     "target": "ES2020",
     "strictNullChecks": true,
     "preserveConstEnums": true,
-    "exactOptionalPropertyTypes": true,
-    "rootDir": "src",
-    "outDir": "build"
-  }
+    "exactOptionalPropertyTypes": true
+  },
+  "include": [
+    "payloads/**/*.ts",
+    "rest/**/*.ts",
+    "common.ts",
+    "utils.ts",
+    "v2.ts"
+  ]
 }
