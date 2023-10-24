@@ -5,24 +5,24 @@
   "homepage": "https://github.com/squarecloudofc/api-types#readme",
   "exports": {
     "./v2": {
-			"types": "./v2.d.ts",
-			"require": "./v2.js",
-			"import": "./v2.mjs"
+			"types": "./build/v2.d.ts",
+			"require": "./build/v2.js",
+			"import": "./build/v2.mjs"
 		},
     "./utils": {
-      "types": "./utils.d.ts",
-      "require": "./utils.js",
-      "import": "./utils.mjs"
+      "types": "./build/utils.d.ts",
+      "require": "./build/utils.js",
+      "import": "./build/utils.mjs"
     },
     "./payloads/v*": {
-      "types": "./payloads/v*/index.d.ts",
-      "require": "./payloads/v*/index.js",
-      "import": "./payloads/v*/index.mjs"
+      "types": "./build/payloads/v*/index.d.ts",
+      "require": "./build/payloads/v*/index.js",
+      "import": "./build/payloads/v*/index.mjs"
     },
     "./rest/v*": {
-      "types": "./rest/v*/index.d.ts",
-      "require": "./rest/v*/index.js",
-      "import": "./rest/v*/index.mjs"
+      "types": "./build/rest/v*/index.d.ts",
+      "require": "./build/rest/v*/index.js",
+      "import": "./build/rest/v*/index.mjs"
     }
   },
   "scripts": {
