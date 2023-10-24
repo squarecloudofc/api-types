@@ -38,7 +38,7 @@ export type APIWebsiteApplicationPayload = APICommonPayload<APIWebsiteApplicatio
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/status > network
+ * [network] https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatusNetwork {
   total: string;

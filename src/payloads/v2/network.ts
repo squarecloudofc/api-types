@@ -5,7 +5,7 @@ import { APICommonPayload } from "../../common";
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/network/analytics > group
+ * [group] https://docs.squarecloud.app/api-reference/endpoint/apps/network/analytics
  */
 export type APINetworkAnalyticsGroup<GroupName extends string = string> = {
   [K in GroupName]: string;

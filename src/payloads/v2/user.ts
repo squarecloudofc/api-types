@@ -5,7 +5,7 @@ import { APICommonPayload } from "../../common";
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/user/info > user > plan > memory
+ * [user.plan.memory] https://docs.squarecloud.app/api-reference/endpoint/user/info
  */
 export interface APIUserPlanMemory {
   limit: number;
@@ -14,7 +14,7 @@ export interface APIUserPlanMemory {
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/user/info > user > plan
+ * [user.plan] https://docs.squarecloud.app/api-reference/endpoint/user/info
  */
 export interface APIUserPlan {
   name: string;
@@ -23,7 +23,7 @@ export interface APIUserPlan {
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/user/info > user
+ * [user] https://docs.squarecloud.app/api-reference/endpoint/user/info
  */
 export interface APIUser {
   id: string;
@@ -34,7 +34,7 @@ export interface APIUser {
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/user/info > applications
+ * [applications] https://docs.squarecloud.app/api-reference/endpoint/user/info
  */
 export interface APIUserApplication {
   id: string;
