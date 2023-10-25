@@ -1,6 +1,7 @@
 {
   "name": "@squarecloud/api-types",
   "version": "0.0.0",
+  "private": false,
   "description": "Typings for Square Cloud API",
   "homepage": "https://github.com/squarecloudofc/api-types#readme",
   "exports": {
