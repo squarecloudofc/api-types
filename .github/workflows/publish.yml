@@ -1,8 +1,8 @@
 name: Publish
 on:
-  release: 
-    types:
-      - released
+  push: 
+    branches: 
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
