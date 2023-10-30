@@ -5,6 +5,20 @@ import { APICommonPayload } from "../../common";
  */
 
 /**
+ * [language] https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ */
+export enum ApplicationLanguage {
+  JavaScript = "javascript",
+  TypeScript = "typescript",
+  Python = "python",
+  Java = "java",
+  Elixir = "elixir",
+  Go = "go",
+  Rust = "rust",
+  PHP = "php",
+}
+
+/**
  * https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
 export interface APIApplication {
@@ -13,9 +27,8 @@ export interface APIApplication {
   avatar: string;
   owner: string;
   cluster: string;
-  cpu?: number;
   ram: number;
-  language: string;
+  language: ApplicationLanguage;
   isWebsite: boolean;
   gitIntegration: boolean;
 }
@@ -38,6 +51,18 @@ export type APIWebsiteApplicationPayload = APICommonPayload<APIWebsiteApplicatio
  */
 
 /**
+ * [status] https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ */
+export enum ApplicationStatus {
+  Exited = "exited",
+  Created = "created",
+  Starting = "starting",
+  Restarting = "restarting",
+  Deleting = "deleting",
+  Running = "running",
+}
+
+/**
  * [network] https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatusNetwork {
@@ -51,7 +76,7 @@ export interface APIApplicationStatusNetwork {
 export interface APIApplicationStatus {
   cpu: string;
   ram: string;
-  status: string;
+  status: ApplicationStatus;
   running: boolean;
   storage: string;
   network: APIApplicationStatusNetwork;

@@ -1,4 +1,5 @@
 import { APICommonPayload, APICommonPayloadStatusOnly } from "../../common";
+import { ApplicationLanguage } from "../../v2";
 
 /**
  * https://docs.squarecloud.app/api-reference/endpoint/apps/start
@@ -46,7 +47,7 @@ export interface RESTPostAPIApplicationUploadFormDataBody {
 }
 
 export interface RESTPostAPIApplicationUploadResultLanguage {
-  name: string;
+  name: ApplicationLanguage;
   version: string;
 }
 
@@ -57,7 +58,7 @@ export interface RESTPostAPIApplicationUploadResult {
   subdomain?: string | null;
   avatar: string;
   ram: number;
-  cpu?: number;
+  cpu: number;
   language: RESTPostAPIApplicationUploadResultLanguage;
 }
 
