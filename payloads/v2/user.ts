@@ -62,6 +62,7 @@ export interface APIUser {
 export interface APIUserApplication {
   id: string;
   tag: string;
+  desc?: string;
   ram: number;
   lang: ApplicationLanguage;
   cluster: string;
