@@ -13,3 +13,5 @@ export interface APICommonPayloadStatusOnly {
 export interface APICommonHeaders {
   Authorization: string;
 }
+
+export type ISODateString = string;
