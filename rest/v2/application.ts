@@ -57,7 +57,7 @@ export interface RESTPostAPIApplicationUploadResult {
   subdomain?: string | null;
   avatar: string;
   ram: number;
-  cpu?: number;
+  cpu: number;
   language: RESTPostAPIApplicationUploadResultLanguage;
 }
 

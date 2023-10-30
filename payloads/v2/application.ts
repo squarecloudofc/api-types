@@ -13,7 +13,6 @@ export interface APIApplication {
   avatar: string;
   owner: string;
   cluster: string;
-  cpu?: number;
   ram: number;
   language: string;
   isWebsite: boolean;

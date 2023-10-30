@@ -2,4 +2,6 @@
 "@squarecloud/api-types": patch
 ---
 
-fix deploy#state named incorrectly
+fix `APIDeploy#state` named incorrectly
+remove `APIApplication#cpu`
+make `RESTPostAPIApplicationUploadResult#cpu` not nullable
