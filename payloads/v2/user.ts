@@ -2,10 +2,6 @@ import { APICommonPayload } from "../../common";
 import { ApplicationLanguage } from "./application";
 
 /**
- * /user
- */
-
-/**
  * [user.plan.name] https://docs.squarecloud.app/api-reference/endpoint/user/info
  */
 export enum UserPlanName {

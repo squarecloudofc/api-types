@@ -1,10 +1,6 @@
 import { APICommonPayload } from "../../common";
 
 /**
- * /apps/{app_id}/files/list
- */
-
-/**
  * [type] https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
  */
 export enum FileType {
@@ -23,10 +19,6 @@ export interface APIFile {
 }
 
 export type APIFileListPayload = APICommonPayload<APIFile[]>;
-
-/**
- * /apps/{app_id}/files/read
- */
 
 /**
  * https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
