@@ -1,10 +1,6 @@
 import { APICommonPayload, ISODateString } from "../../common";
 
 /**
- * /apps/{app_id}/deploy/list
- */
-
-/**
  * [state] https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/list
  */
 export enum DeployState {

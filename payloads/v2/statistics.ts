@@ -1,10 +1,6 @@
 import { APICommonPayload } from "../../common";
 
 /**
- * /service/statistics
- */
-
-/**
  * https://docs.squarecloud.app/api-reference/endpoint/service/statistics
  */
 export interface APIStatistics {

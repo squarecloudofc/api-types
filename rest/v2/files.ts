@@ -5,7 +5,7 @@ import { APICommonPayloadStatusOnly } from "../../common";
  */
 export interface RESTPostAPIFileCreateJSONBody {
   path: string;
-  buffer: ReturnType<Buffer["toJSON"]>;
+  buffer: number[];
 }
 
 export type RESTPostAPIFileCreateResultPayload = APICommonPayloadStatusOnly;
