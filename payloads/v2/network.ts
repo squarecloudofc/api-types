@@ -1,4 +1,4 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 
 /**
  * [group] https://docs.squarecloud.app/api-reference/endpoint/apps/network/analytics
@@ -24,4 +24,4 @@ export interface APINetworkAnalytics {
   paths: APINetworkAnalyticsGroup<"path">[];
 }
 
-export type APINetworkAnalyticsPayload = APICommonPayload<APINetworkAnalytics>;
+export type APINetworkAnalyticsPayload = APIPayload<APINetworkAnalytics>;

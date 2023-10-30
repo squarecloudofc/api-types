@@ -1,4 +1,4 @@
-import { APICommonPayload, ISODateString } from "../../common";
+import { APIPayload, ISODateString } from "../../common";
 
 /**
  * [state] https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/list
@@ -19,4 +19,4 @@ export interface APIDeploy {
   date: ISODateString;
 }
 
-export type APIDeployPayload = APICommonPayload<APIDeploy[]>;
+export type APIDeployPayload = APIPayload<APIDeploy[]>;

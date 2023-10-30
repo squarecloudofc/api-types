@@ -1,17 +1,19 @@
-export type APICommonPayloadStatus = "error" | "success";
+export type APIPayloadStatus = "error" | "success";
 
-export interface APICommonPayload<TResponse> {
-  status: APICommonPayloadStatus;
+export interface APIPayload<TResponse> {
+  status: APIPayloadStatus;
   response: TResponse;
   code?: string;
 }
 
-export interface APICommonPayloadStatusOnly {
-  status: APICommonPayloadStatus;
+export interface APIPayloadStatusOnly {
+  status: APIPayloadStatus;
 }
 
-export interface APICommonHeaders {
+export interface APIHeaders {
   Authorization: string;
 }
+
+export type APIVersion<TVersion extends number> = `v${TVersion}`;
 
 export type ISODateString = string;

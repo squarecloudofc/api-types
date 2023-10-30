@@ -1,4 +1,4 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 
 /**
  * https://docs.squarecloud.app/api-reference/endpoint/apps/logs
@@ -7,4 +7,4 @@ export interface APIApplicationLogs {
   logs: string;
 }
 
-export type APIApplicationLogsPayload = APICommonPayload<APIApplicationLogs>;
+export type APIApplicationLogsPayload = APIPayload<APIApplicationLogs>;

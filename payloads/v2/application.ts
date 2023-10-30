@@ -1,4 +1,4 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 
 /**
  * [language] https://docs.squarecloud.app/api-reference/endpoint/apps/info
@@ -30,7 +30,7 @@ export interface APIApplication {
   gitIntegration: boolean;
 }
 
-export type APIApplicationPayload = APICommonPayload<APIApplication>;
+export type APIApplicationPayload = APIPayload<APIApplication>;
 
 /**
  * https://docs.squarecloud.app/api-reference/endpoint/apps/info
@@ -41,4 +41,4 @@ export interface APIWebsiteApplication extends APIApplication {
   custom: string | null;
 }
 
-export type APIWebsiteApplicationPayload = APICommonPayload<APIWebsiteApplication>;
+export type APIWebsiteApplicationPayload = APIPayload<APIWebsiteApplication>;

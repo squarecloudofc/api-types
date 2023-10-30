@@ -1,4 +1,4 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 
 /**
  * [type] https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
@@ -18,7 +18,7 @@ export interface APIFile {
   lastModified: number;
 }
 
-export type APIFileListPayload = APICommonPayload<APIFile[]>;
+export type APIFileListPayload = APIPayload<APIFile[]>;
 
 /**
  * https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
@@ -28,4 +28,4 @@ export interface APIBufferFile {
   data: number[];
 }
 
-export type APIFileReadPayload = APICommonPayload<APIBufferFile>;
+export type APIFileReadPayload = APIPayload<APIBufferFile>;

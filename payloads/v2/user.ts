@@ -1,4 +1,4 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 import { ApplicationLanguage } from "./application";
 
 /**
@@ -74,4 +74,4 @@ export interface APIUserInfo {
   applications: APIUserApplication[];
 }
 
-export type APIUserInfoPayload = APICommonPayload<APIUserInfo>;
+export type APIUserInfoPayload = APIPayload<APIUserInfo>;

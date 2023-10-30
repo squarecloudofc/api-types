@@ -1,4 +1,4 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 
 /**
  * [status] https://docs.squarecloud.app/api-reference/endpoint/apps/status
@@ -34,4 +34,4 @@ export interface APIApplicationStatus {
   uptime: number | null;
 }
 
-export type APIApplicationStatusPayload = APICommonPayload<APIApplicationStatus>;
+export type APIApplicationStatusPayload = APIPayload<APIApplicationStatus>;
