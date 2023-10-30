@@ -9,7 +9,7 @@ import { APICommonPayload } from "../../common";
  */
 export interface APIDeploy {
   id: string;
-  status: string;
+  state: string;
   date: string;
 }
 
