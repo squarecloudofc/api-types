@@ -1,5 +1,13 @@
 # @squarecloud/api-types
 
+## 0.0.4
+
+### Patch Changes
+
+- b24724c: improve comments and file structure
+- b4865e1: simplify `RESTPostAPIFileCreateJSONBody#buffer`
+- 2dcfab4: add descriptions properties to Applications\*
+
 ## 0.0.3
 
 ### Patch Changes
