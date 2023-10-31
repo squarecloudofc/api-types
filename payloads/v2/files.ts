@@ -11,21 +11,21 @@ export enum FileType {
 /**
  * https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
  */
-export interface APIFile {
+export interface APIListedFile {
   type: FileType;
   name: string;
   size: number;
   lastModified: number;
 }
 
-export type APIFileListPayload = APIPayload<APIFile[]>;
+export type APIFileListPayload = APIPayload<APIListedFile[]>;
 
 /**
  * https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
  */
-export interface APIBufferFile {
+export interface APIReadFile {
   type: string;
   data: number[];
 }
 
-export type APIFileReadPayload = APIPayload<APIBufferFile>;
+export type APIFileReadPayload = APIPayload<APIReadFile>;
