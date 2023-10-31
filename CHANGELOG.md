@@ -1,5 +1,16 @@
 # @squarecloud/api-types
 
+## 0.1.0
+
+### Minor Changes
+
+- 004808a: add typings for /apps/all/status route
+
+### Patch Changes
+
+- 0f3cd4e: improve common interfaces naming
+- d3dbca7: rename some typings under application#files
+
 ## 0.0.4
 
 ### Patch Changes
