@@ -35,3 +35,15 @@ export interface APIApplicationStatus {
 }
 
 export type APIApplicationStatusPayload = APIPayload<APIApplicationStatus>;
+
+/**
+ * /apps/all/status https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ */
+export interface APIApplicationStatusAll {
+  id: string;
+  cpu: string;
+  ram: string;
+  running: boolean;
+}
+
+export type APIApplicationStatusAllPayload = APIPayload<APIApplicationStatusAll[]>;
