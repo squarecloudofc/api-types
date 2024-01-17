@@ -10,7 +10,6 @@ import { APICommonPayload } from "../../common";
 export interface APIApplication {
   id: string;
   name: string;
-  avatar: string;
   owner: string;
   cluster: string;
   cpu?: number;

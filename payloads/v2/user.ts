@@ -43,7 +43,6 @@ export interface APIUserApplication {
   lang: string;
   cluster: string;
   isWebsite: boolean;
-  avatar: string;
 }
 
 /**
