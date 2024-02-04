@@ -2,4 +2,4 @@
 "@squarecloud/api-types": minor
 ---
 
-remove `avatar` from APIApplication, APIUserApplication and RESTPostAPIApplicationUploadResult
+remove `avatar` from `APIApplication`, `APIUserApplication` and `RESTPostAPIApplicationUploadResult`
