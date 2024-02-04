@@ -5,7 +5,7 @@ import { APICommonPayload } from "../../common";
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/service/statistics
+ * @see https://docs.squarecloud.app/api-reference/endpoint/service/statistics
  */
 export interface APIStatistics {
   worker: number;

@@ -5,7 +5,7 @@ import { APICommonPayload } from "../../common";
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
  */
 export interface APIFile {
   type: string;
@@ -21,7 +21,7 @@ export type APIFileListPayload = APICommonPayload<APIFile[]>;
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
  */
 export interface APIBufferFile {
   type: string;

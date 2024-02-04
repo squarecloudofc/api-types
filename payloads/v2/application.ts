@@ -5,7 +5,7 @@ import { APICommonPayload } from "../../common";
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
 export interface APIApplication {
   id: string;
@@ -22,7 +22,7 @@ export interface APIApplication {
 export type APIApplicationPayload = APICommonPayload<APIApplication>;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
 export interface APIWebsiteApplication extends APIApplication {
   isWebsite: true;
@@ -37,7 +37,8 @@ export type APIWebsiteApplicationPayload = APICommonPayload<APIWebsiteApplicatio
  */
 
 /**
- * [network] https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * APIApplicationStatus#network
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatusNetwork {
   total: string;
@@ -45,7 +46,7 @@ export interface APIApplicationStatusNetwork {
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatus {
   cpu: string;
@@ -65,7 +66,7 @@ export type APIApplicationStatusPayload = APICommonPayload<APIApplicationStatus>
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/logs
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/logs
  */
 export interface APIApplicationLogs {
   logs: string;
@@ -78,7 +79,7 @@ export type APIApplicationLogsPayload = APICommonPayload<APIApplicationLogs>;
  */
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/backup
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/backup
  */
 export interface APIApplicationBackup {
   downloadURL: string;

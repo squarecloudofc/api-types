@@ -1,29 +1,29 @@
 import { APICommonPayload, APICommonPayloadStatusOnly } from "../../common";
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/start
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/start
  */
 export type RESTPostAPIApplicationStartResultPayload = APICommonPayloadStatusOnly;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/restart
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/restart
  */
 export type RESTPostAPIApplicationRestartResultPayload = APICommonPayloadStatusOnly;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/stop
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/stop
  */
 export type RESTPostAPIApplicationStopResultPayload = APICommonPayloadStatusOnly;
 
 /**
- * [body] https://docs.squarecloud.app/api-reference/endpoint/apps/commit
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/commit
  */
 export interface RESTPostAPIApplicationCommitFormDataBody {
   file: unknown;
 }
 
 /**
- * [query] https://docs.squarecloud.app/api-reference/endpoint/apps/commit
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/commit
  */
 export interface RESTPostAPIApplicationCommitQuery {
   restart?: boolean;
@@ -34,12 +34,12 @@ export interface RESTPostAPIApplicationCommitResultPayload extends APICommonPayl
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/delete
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/delete
  */
 export type RESTDeleteAPIApplicationDeleteResultPayload = APICommonPayloadStatusOnly;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/upload
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/upload
  */
 export interface RESTPostAPIApplicationUploadFormDataBody {
   file: unknown;

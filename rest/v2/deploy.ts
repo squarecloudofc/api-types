@@ -1,7 +1,7 @@
 import { APICommonPayload } from "../../common";
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/webhooks
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/webhooks
  */
 export interface RESTPostAPIGithubWebhookJSONBody {
   access_token: string;
