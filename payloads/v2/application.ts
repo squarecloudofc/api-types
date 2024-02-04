@@ -21,7 +21,6 @@ export interface APIApplication {
   id: string;
   name: string;
   desc?: string;
-  avatar: string;
   owner: string;
   cluster: string;
   ram: number;

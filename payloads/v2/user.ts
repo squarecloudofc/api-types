@@ -63,7 +63,6 @@ export interface APIUserApplication {
   lang: ApplicationLanguage;
   cluster: string;
   isWebsite: boolean;
-  avatar: string;
 }
 
 /**
