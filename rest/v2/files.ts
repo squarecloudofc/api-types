@@ -1,14 +1,14 @@
-import { APICommonPayloadStatusOnly } from "../../common";
+import { APIPayloadStatusOnly } from "../../common";
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/create
  */
 export interface RESTPostAPIFileCreateJSONBody {
   path: string;
-  buffer: ReturnType<Buffer["toJSON"]>;
+  buffer: number[];
 }
 
-export type RESTPostAPIFileCreateResultPayload = APICommonPayloadStatusOnly;
+export type RESTPostAPIFileCreateResultPayload = APIPayloadStatusOnly;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/delete
@@ -17,4 +17,4 @@ export interface RESTDeleteAPIFileDeleteQuery {
   path: string;
 }
 
-export type RESTDeleteAPIFileDeleteResultPayload = APICommonPayloadStatusOnly;
+export type RESTDeleteAPIFileDeleteResultPayload = APIPayloadStatusOnly;

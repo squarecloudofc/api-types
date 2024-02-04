@@ -1,19 +1,20 @@
-import { APICommonPayload, APICommonPayloadStatusOnly } from "../../common";
+import { APIPayload, APIPayloadStatusOnly } from "../../common";
+import { ApplicationLanguage } from "../../v2";
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/start
  */
-export type RESTPostAPIApplicationStartResultPayload = APICommonPayloadStatusOnly;
+export type RESTPostAPIApplicationStartResultPayload = APIPayloadStatusOnly;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/restart
  */
-export type RESTPostAPIApplicationRestartResultPayload = APICommonPayloadStatusOnly;
+export type RESTPostAPIApplicationRestartResultPayload = APIPayloadStatusOnly;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/stop
  */
-export type RESTPostAPIApplicationStopResultPayload = APICommonPayloadStatusOnly;
+export type RESTPostAPIApplicationStopResultPayload = APIPayloadStatusOnly;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/commit
@@ -29,14 +30,14 @@ export interface RESTPostAPIApplicationCommitQuery {
   restart?: boolean;
 }
 
-export interface RESTPostAPIApplicationCommitResultPayload extends APICommonPayloadStatusOnly {
+export interface RESTPostAPIApplicationCommitResultPayload extends APIPayloadStatusOnly {
   message?: string;
 }
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/delete
  */
-export type RESTDeleteAPIApplicationDeleteResultPayload = APICommonPayloadStatusOnly;
+export type RESTDeleteAPIApplicationDeleteResultPayload = APIPayloadStatusOnly;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/upload
@@ -46,18 +47,18 @@ export interface RESTPostAPIApplicationUploadFormDataBody {
 }
 
 export interface RESTPostAPIApplicationUploadResultLanguage {
-  name: string;
+  name: ApplicationLanguage;
   version: string;
 }
 
 export interface RESTPostAPIApplicationUploadResult {
   id: string;
   tag: string;
-  description: string;
+  description?: string;
   subdomain?: string | null;
   ram: number;
-  cpu?: number;
+  cpu: number;
   language: RESTPostAPIApplicationUploadResultLanguage;
 }
 
-export type RESTPostAPIApplicationUploadResultPayload = APICommonPayload<RESTPostAPIApplicationUploadResult>;
+export type RESTPostAPIApplicationUploadResultPayload = APIPayload<RESTPostAPIApplicationUploadResult>;

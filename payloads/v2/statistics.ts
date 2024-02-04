@@ -1,8 +1,4 @@
-import { APICommonPayload } from "../../common";
-
-/**
- * /service/statistics
- */
+import { APIPayload } from "../../common";
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/service/statistics
@@ -18,4 +14,4 @@ export interface APIStatistics {
   };
 }
 
-export type APIStatisticsPayload = APICommonPayload<APIStatistics>;
+export type APIStatisticsPayload = APIPayload<APIStatistics>;

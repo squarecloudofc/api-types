@@ -1,4 +1,4 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/webhooks
@@ -11,4 +11,4 @@ export interface RESTPostAPIGithubWebhookResult {
   webhook: string;
 }
 
-export type RESTPostAPIGithubWebhookResultPayload = APICommonPayload<RESTPostAPIGithubWebhookResult>;
+export type RESTPostAPIGithubWebhookResultPayload = APIPayload<RESTPostAPIGithubWebhookResult>;

@@ -1,8 +1,4 @@
-import { APICommonPayload } from "../../common";
-
-/**
- * /apps/{app_id}/network/analytics
- */
+import { APIPayload } from "../../common";
 
 /**
  * APINetworkAnalytics Group
@@ -29,4 +25,4 @@ export interface APINetworkAnalytics {
   paths: APINetworkAnalyticsGroup<"path">[];
 }
 
-export type APINetworkAnalyticsPayload = APICommonPayload<APINetworkAnalytics>;
+export type APINetworkAnalyticsPayload = APIPayload<APINetworkAnalytics>;

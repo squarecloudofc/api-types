@@ -1,31 +1,31 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 
 /**
- * /apps/{app_id}/files/list
+ * [type] https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
  */
+export enum FileType {
+  File = "file",
+  Directory = "directory",
+}
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
  */
-export interface APIFile {
-  type: string;
+export interface APIListedFile {
+  type: FileType;
   name: string;
   size: number;
   lastModified: number;
 }
 
-export type APIFileListPayload = APICommonPayload<APIFile[]>;
-
-/**
- * /apps/{app_id}/files/read
- */
+export type APIFileListPayload = APIPayload<APIListedFile[]>;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
  */
-export interface APIBufferFile {
+export interface APIReadFile {
   type: string;
   data: number[];
 }
 
-export type APIFileReadPayload = APICommonPayload<APIBufferFile>;
+export type APIFileReadPayload = APIPayload<APIReadFile>;

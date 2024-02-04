@@ -1,8 +1,18 @@
-import { APICommonPayload } from "../../common";
+import { APIPayload } from "../../common";
 
 /**
- * /apps/{app_id}
+ * [language] https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
+export enum ApplicationLanguage {
+  JavaScript = "javascript",
+  TypeScript = "typescript",
+  Python = "python",
+  Java = "java",
+  Elixir = "elixir",
+  Go = "go",
+  Rust = "rust",
+  PHP = "php",
+}
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
@@ -12,14 +22,13 @@ export interface APIApplication {
   name: string;
   owner: string;
   cluster: string;
-  cpu?: number;
   ram: number;
-  language: string;
+  language: ApplicationLanguage;
   isWebsite: boolean;
   gitIntegration: boolean;
 }
 
-export type APIApplicationPayload = APICommonPayload<APIApplication>;
+export type APIApplicationPayload = APIPayload<APIApplication>;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
