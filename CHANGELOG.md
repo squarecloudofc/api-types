@@ -1,5 +1,16 @@
 # @squarecloud/api-types
 
+## 0.2.0
+
+### Minor Changes
+
+- c4b38e3: remove `avatar` from `APIApplication`, `APIUserApplication` and `RESTPostAPIApplicationUploadResult`
+- 59da443: update `UserPlanName` enum to new plans
+
+### Patch Changes
+
+- 2504cbd: improve JSDocs
+
 ## 0.1.0
 
 ### Minor Changes
