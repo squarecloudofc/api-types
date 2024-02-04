@@ -1,7 +1,8 @@
 import { APIPayload } from "../../common";
 
 /**
- * [language] https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ * APIApplication#language
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
 export enum ApplicationLanguage {
   JavaScript = "javascript",
@@ -15,7 +16,7 @@ export enum ApplicationLanguage {
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
 export interface APIApplication {
   id: string;
@@ -32,7 +33,7 @@ export interface APIApplication {
 export type APIApplicationPayload = APIPayload<APIApplication>;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
 export interface APIWebsiteApplication extends APIApplication {
   isWebsite: true;

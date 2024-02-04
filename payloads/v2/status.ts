@@ -1,7 +1,8 @@
 import { APIPayload } from "../../common";
 
 /**
- * [status] https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * APIApplicationStatus#status
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export enum ApplicationStatus {
   Exited = "exited",
@@ -13,7 +14,8 @@ export enum ApplicationStatus {
 }
 
 /**
- * [network] https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * APIApplicationStatus#network
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatusNetwork {
   total: string;
@@ -21,7 +23,7 @@ export interface APIApplicationStatusNetwork {
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatus {
   cpu: string;
@@ -37,7 +39,7 @@ export interface APIApplicationStatus {
 export type APIApplicationStatusPayload = APIPayload<APIApplicationStatus>;
 
 /**
- * /apps/all/status https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * @see /apps/all/status https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatusAll {
   id: string;

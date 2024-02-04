@@ -2,29 +2,29 @@ import { APIPayload, APIPayloadStatusOnly } from "../../common";
 import { ApplicationLanguage } from "../../v2";
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/start
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/start
  */
 export type RESTPostAPIApplicationStartResultPayload = APIPayloadStatusOnly;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/restart
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/restart
  */
 export type RESTPostAPIApplicationRestartResultPayload = APIPayloadStatusOnly;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/stop
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/stop
  */
 export type RESTPostAPIApplicationStopResultPayload = APIPayloadStatusOnly;
 
 /**
- * [body] https://docs.squarecloud.app/api-reference/endpoint/apps/commit
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/commit
  */
 export interface RESTPostAPIApplicationCommitFormDataBody {
   file: unknown;
 }
 
 /**
- * [query] https://docs.squarecloud.app/api-reference/endpoint/apps/commit
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/commit
  */
 export interface RESTPostAPIApplicationCommitQuery {
   restart?: boolean;
@@ -35,12 +35,12 @@ export interface RESTPostAPIApplicationCommitResultPayload extends APIPayloadSta
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/delete
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/delete
  */
 export type RESTDeleteAPIApplicationDeleteResultPayload = APIPayloadStatusOnly;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/upload
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/upload
  */
 export interface RESTPostAPIApplicationUploadFormDataBody {
   file: unknown;

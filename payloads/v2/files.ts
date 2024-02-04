@@ -9,7 +9,7 @@ export enum FileType {
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
  */
 export interface APIListedFile {
   type: FileType;
@@ -21,7 +21,7 @@ export interface APIListedFile {
 export type APIFileListPayload = APIPayload<APIListedFile[]>;
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
  */
 export interface APIReadFile {
   type: string;

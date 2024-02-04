@@ -1,7 +1,8 @@
 import { APIPayload, ISODateString } from "../../common";
 
 /**
- * [state] https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/list
+ * APIDeploy#state
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/list
  */
 export enum DeployState {
   Pending = "pending",
