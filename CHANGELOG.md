@@ -1,5 +1,11 @@
 # @squarecloud/api-types
 
+## 0.2.1
+
+### Patch Changes
+
+- c013db0: remove `APIApplication#gitIntegration` due to API changes
+
 ## 0.2.0
 
 ### Minor Changes
