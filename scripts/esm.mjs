@@ -16,10 +16,10 @@ const fileToESMWrapperCall = (path, version) =>
   execAsync(`npx gen-esm-wrapper "${join(rootDir, path, `${version}.js`)}" "${join(rootDir, path, `${version}.mjs`)}"`);
 
 await Promise.allSettled(
-  ["v2"].map((version) => [
+  ...["v2"].map((version) => [
     fileToESMWrapperCall(`payloads/${version}`, "index"),
     fileToESMWrapperCall(`rest/${version}`, "index"),
     fileToESMWrapperCall("", version),
-    fileToESMWrapperCall("", "utils"),
   ]),
+  fileToESMWrapperCall("", "utils"),
 );
