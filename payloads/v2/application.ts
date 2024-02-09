@@ -13,6 +13,7 @@ export enum ApplicationLanguage {
   Go = "go",
   Rust = "rust",
   PHP = "php",
+  Static = "static",
 }
 
 /**
