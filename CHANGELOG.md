@@ -1,5 +1,17 @@
 # @squarecloud/api-types
 
+## 0.2.2
+
+### Patch Changes
+
+- 881b9a1: Add `static` to `ApplicationLanguage` enum
+
+## 0.2.1
+
+### Patch Changes
+
+- c013db0: remove `APIApplication#gitIntegration` due to API changes
+
 ## 0.2.0
 
 ### Minor Changes

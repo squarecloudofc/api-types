@@ -13,6 +13,7 @@ export enum ApplicationLanguage {
   Go = "go",
   Rust = "rust",
   PHP = "php",
+  Static = "static",
 }
 
 /**
@@ -27,7 +28,6 @@ export interface APIApplication {
   ram: number;
   language: ApplicationLanguage;
   isWebsite: boolean;
-  gitIntegration: boolean;
 }
 
 export type APIApplicationPayload = APIPayload<APIApplication>;
