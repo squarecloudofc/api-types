@@ -1,5 +1,12 @@
 # @squarecloud/api-types
 
+## 0.2.3
+
+### Patch Changes
+
+- ecd05cf: Add `free` and `student` to `UserPlanName`
+- ab66f4c: remove `locale` from `APIUser`
+
 ## 0.2.2
 
 ### Patch Changes
