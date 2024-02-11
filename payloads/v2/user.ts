@@ -55,7 +55,6 @@ export interface APIUserPlan {
 export interface APIUser {
   id: string;
   tag: string;
-  locale: string;
   email: string;
   plan: APIUserPlan;
 }
