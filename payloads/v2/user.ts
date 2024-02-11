@@ -6,6 +6,8 @@ import { ApplicationLanguage } from "./application";
  * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
  */
 export enum UserPlanName {
+  Free = "free",
+  Student = "student",
   Hobby = "hobby",
   Standard = "standard",
   Pro = "pro",
