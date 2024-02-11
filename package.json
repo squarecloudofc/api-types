@@ -34,7 +34,8 @@
     "tsc": "tsc",
     "prepublishOnly": "run-s clean lint build",
     "postpublish": "npm run clean",
-    "release": "npm run build && changeset publish"
+    "release": "npm run build && changeset publish",
+    "postinstall": "node ./scripts/postinstall.mjs"
   },
   "repository": {
     "type": "git",
