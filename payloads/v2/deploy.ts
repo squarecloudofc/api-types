@@ -12,7 +12,7 @@ export enum DeployState {
 }
 
 /**
- * https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/list
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/list
  */
 export interface APIDeploy {
   id: `git-${string}`;

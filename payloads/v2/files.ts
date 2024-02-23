@@ -1,7 +1,8 @@
 import { APIPayload } from "../../common";
 
 /**
- * [type] https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
+ * APIListedFile#type
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
  */
 export enum FileType {
   File = "file",
