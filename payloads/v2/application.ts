@@ -27,7 +27,8 @@ export interface APIApplication {
 	cluster: string;
 	ram: number;
 	language: ApplicationLanguage;
-	isWebsite: boolean;
+	/** @deprecated - Check for APIWebsiteApplication#domain instead */
+	isWebsite?: never;
 }
 
 export type APIApplicationPayload = APIPayload<APIApplication>;
@@ -36,7 +37,8 @@ export type APIApplicationPayload = APIPayload<APIApplication>;
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
 export interface APIWebsiteApplication extends APIApplication {
-	isWebsite: true;
+	/** @deprecated - Check for APIWebsiteApplication#domain instead */
+	isWebsite?: never;
 	domain: string;
 	custom: string | null;
 }

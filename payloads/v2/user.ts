@@ -54,7 +54,9 @@ export interface APIUserPlan {
  */
 export interface APIUser {
 	id: string;
-	tag: string;
+	/** @deprecated - Use APIUser#name instead */
+	tag?: never;
+	name: string;
 	email: string;
 	plan: APIUserPlan;
 }
@@ -65,12 +67,15 @@ export interface APIUser {
  */
 export interface APIUserApplication {
 	id: string;
-	tag: string;
+	/** @deprecated - Use APIUserApplication#name instead */
+	tag?: never;
+	name: string;
 	desc?: string;
 	ram: number;
 	lang: ApplicationLanguage;
 	cluster: string;
-	isWebsite: boolean;
+	/** @deprecated - Check for APIWebsiteApplication#domain instead */
+	isWebsite?: never;
 }
 
 /**
