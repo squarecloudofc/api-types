@@ -1,5 +1,12 @@
 # @squarecloud/api-types
 
+## 0.2.4
+
+### Patch Changes
+
+- 4b4ddc1: Deprecate APIUser, APIUserApplication and RESTPostAPIApplicationUploadResult `tag` property.
+- 4b4ddc1: Deprecate APIApplication, APIWebsiteApplication and APIUserApplication `isWebsite` property.
+
 ## 0.2.3
 
 ### Patch Changes
