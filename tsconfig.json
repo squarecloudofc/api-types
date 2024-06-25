@@ -1,25 +1,25 @@
 {
-  "compileOnSave": true,
-  "compilerOptions": {
-    "alwaysStrict": true,
-    "lib": ["esnext"],
-    "module": "commonjs",
-    "noUnusedParameters": true,
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "noUnusedLocals": true,
-    "removeComments": false,
-    "target": "ES2020",
-    "strictNullChecks": true,
-    "preserveConstEnums": true,
-    "exactOptionalPropertyTypes": true
-  },
-  "include": [
-    "payloads/**/*.ts",
-    "rest/**/*.ts",
-    "common.ts",
-    "utils.ts",
-    "v2.ts"
-  ]
+	"compileOnSave": true,
+	"compilerOptions": {
+		"alwaysStrict": true,
+		"lib": ["esnext"],
+		"module": "commonjs",
+		"noUnusedParameters": true,
+		"sourceMap": true,
+		"declaration": true,
+		"declarationMap": true,
+		"noUnusedLocals": true,
+		"removeComments": false,
+		"target": "ES2020",
+		"strictNullChecks": true,
+		"preserveConstEnums": true,
+		"exactOptionalPropertyTypes": true
+	},
+	"include": [
+		"payloads/**/*.ts",
+		"rest/**/*.ts",
+		"common.ts",
+		"utils.ts",
+		"v2.ts"
+	]
 }

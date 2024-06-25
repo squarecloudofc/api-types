@@ -1,5 +1,5 @@
-import { APIPayload, APIPayloadStatusOnly } from "../../common";
-import { ApplicationLanguage } from "../../v2";
+import type { APIPayload, APIPayloadStatusOnly } from "../../common";
+import type { ApplicationLanguage } from "../../v2";
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/start
@@ -20,18 +20,19 @@ export type RESTPostAPIApplicationStopResultPayload = APIPayloadStatusOnly;
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/commit
  */
 export interface RESTPostAPIApplicationCommitFormDataBody {
-  file: unknown;
+	file: unknown;
 }
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/commit
  */
 export interface RESTPostAPIApplicationCommitQuery {
-  restart?: boolean;
+	restart?: boolean;
 }
 
-export interface RESTPostAPIApplicationCommitResultPayload extends APIPayloadStatusOnly {
-  message?: string;
+export interface RESTPostAPIApplicationCommitResultPayload
+	extends APIPayloadStatusOnly {
+	message?: string;
 }
 
 /**
@@ -43,22 +44,23 @@ export type RESTDeleteAPIApplicationDeleteResultPayload = APIPayloadStatusOnly;
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/upload
  */
 export interface RESTPostAPIApplicationUploadFormDataBody {
-  file: unknown;
+	file: unknown;
 }
 
 export interface RESTPostAPIApplicationUploadResultLanguage {
-  name: ApplicationLanguage;
-  version: string;
+	name: ApplicationLanguage;
+	version: string;
 }
 
 export interface RESTPostAPIApplicationUploadResult {
-  id: string;
-  tag: string;
-  description?: string;
-  subdomain?: string | null;
-  ram: number;
-  cpu: number;
-  language: RESTPostAPIApplicationUploadResultLanguage;
+	id: string;
+	tag: string;
+	description?: string;
+	subdomain?: string | null;
+	ram: number;
+	cpu: number;
+	language: RESTPostAPIApplicationUploadResultLanguage;
 }
 
-export type RESTPostAPIApplicationUploadResultPayload = APIPayload<RESTPostAPIApplicationUploadResult>;
+export type RESTPostAPIApplicationUploadResultPayload =
+	APIPayload<RESTPostAPIApplicationUploadResult>;

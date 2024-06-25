@@ -1,4 +1,4 @@
-import { APIPayloadStatusOnly } from "../../common";
+import type { APIPayloadStatusOnly } from "../../common";
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/network/custom

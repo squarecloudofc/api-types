@@ -1,6 +1,0 @@
-{
-  "extends": "@squarecloud/eslint-config/node",
-  "rules": {
-    "@typescript-eslint/ban-types": "off"
-  }
-}
