@@ -1,5 +1,11 @@
 # @squarecloud/api-types
 
+## 0.2.5
+
+### Patch Changes
+
+- b3f1a17: Update `UserPlanName` with new Enterprise plans
+
 ## 0.2.4
 
 ### Patch Changes
