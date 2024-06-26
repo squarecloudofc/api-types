@@ -26,6 +26,9 @@ export enum UserPlanName {
 	Enterprise384 = "enterprise-384",
 	Enterprise448 = "enterprise-448",
 	Enterprise512 = "enterprise-512",
+	Enterprise640 = "enterprise-640",
+	Enterprise768 = "enterprise-768",
+	Enterprise1024 = "enterprise-1024",
 }
 
 /**
