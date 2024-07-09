@@ -1,5 +1,4 @@
 {
-	"compileOnSave": true,
 	"compilerOptions": {
 		"alwaysStrict": true,
 		"lib": ["esnext"],

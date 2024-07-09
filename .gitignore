@@ -24,30 +24,25 @@ node_modules/
 .env.local
 
 # Build outputs
-common.js
-common.*map
-common.d.ts
-common.mjs
-
-utils.js
+utils.*js
 utils.*map
-utils.d.ts
-utils.mjs
+utils.d.*ts
 
-v*.js
+v*.*js
 v*.*map
-v*.d.ts
-v*.mjs
+v*.d.*ts
 
-payloads/**/*.js
+common/**/*.*js
+common/**/*.*map
+common/**/*.d.*ts
+
+payloads/**/*.*js
 payloads/**/*.map
-payloads/**/*.d.ts
-payloads/**/*.mjs
+payloads/**/*.d.*ts
 
-rest/**/*.js
+rest/**/*.*js
 rest/**/*.map
-rest/**/*.d.ts
-rest/**/*.mjs
+rest/**/*.d.*ts
 
 # MacOS files
 .DS_Store
