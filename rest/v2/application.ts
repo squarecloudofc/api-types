@@ -1,4 +1,8 @@
-import type { APIPayload, APIPayloadStatusOnly, ApplicationId } from "../../common/v2";
+import type {
+	APIPayload,
+	APIPayloadStatusOnly,
+	ApplicationId,
+} from "../../common/v2";
 import type { ApplicationLanguage } from "../../v2";
 
 /**
@@ -54,8 +58,6 @@ export interface RESTPostAPIApplicationUploadResultLanguage {
 
 export interface RESTPostAPIApplicationUploadResult {
 	id: ApplicationId;
-	/** @deprecated - Use RESTPostAPIApplicationUploadResult#name instead */
-	tag?: never;
 	name: string;
 	description?: string;
 	subdomain?: string | null;
