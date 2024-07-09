@@ -18,7 +18,7 @@
 	"include": [
 		"payloads/**/*.ts",
 		"rest/**/*.ts",
-		"common.ts",
+		"common/v2.ts",
 		"utils.ts",
 		"v2.ts"
 	]

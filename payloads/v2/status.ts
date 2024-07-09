@@ -1,4 +1,4 @@
-import type { APIPayload } from "../../common";
+import type { APIPayload, ApplicationId } from "../../common/v2";
 
 /**
  * APIApplicationStatus#status
@@ -42,7 +42,7 @@ export type APIApplicationStatusPayload = APIPayload<APIApplicationStatus>;
  * @see /apps/all/status https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatusAll {
-	id: string;
+	id: ApplicationId;
 	cpu: string;
 	ram: string;
 	running: boolean;

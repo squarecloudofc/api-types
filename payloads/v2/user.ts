@@ -1,4 +1,4 @@
-import type { APIPayload } from "../../common";
+import type { APIPayload, ApplicationId, UserId } from "../../common/v2";
 import type { ApplicationLanguage } from "./application";
 
 /**
@@ -56,7 +56,7 @@ export interface APIUserPlan {
  * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
  */
 export interface APIUser {
-	id: string;
+	id: UserId;
 	/** @deprecated - Use APIUser#name instead */
 	tag?: never;
 	name: string;
@@ -69,7 +69,7 @@ export interface APIUser {
  * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
  */
 export interface APIUserApplication {
-	id: string;
+	id: ApplicationId;
 	/** @deprecated - Use APIUserApplication#name instead */
 	tag?: never;
 	name: string;

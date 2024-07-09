@@ -1,4 +1,4 @@
-import type { APIPayload } from "../../common";
+import type { APIPayload } from "../../common/v2";
 
 /**
  * APIListedFile#type

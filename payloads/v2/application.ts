@@ -1,4 +1,4 @@
-import type { APIPayload } from "../../common";
+import type { APIPayload, ApplicationId } from "../../common/v2";
 
 /**
  * APIApplication#language
@@ -20,7 +20,7 @@ export enum ApplicationLanguage {
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
 export interface APIApplication {
-	id: string;
+	id: ApplicationId;
 	name: string;
 	desc?: string;
 	owner: string;

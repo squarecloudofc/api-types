@@ -1,4 +1,4 @@
-import type { APIPayloadStatusOnly } from "../../common";
+import type { APIPayloadStatusOnly } from "../../common/v2";
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/create

@@ -1,4 +1,4 @@
-import type { APIPayload, ISODateString } from "../../common";
+import type { APIPayload, ISODateString } from "../../common/v2";
 
 /**
  * APIDeploy#state
