@@ -3,7 +3,7 @@ import type {
 	APIPayloadStatusOnly,
 	ApplicationId,
 } from "../../common/v2";
-import type { ApplicationLanguage } from "../../v2";
+import type { ApplicationLanguage } from "../../payloads/v2";
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/start
