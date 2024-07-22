@@ -39,7 +39,7 @@ export interface APIApplicationStatus {
 export type APIApplicationStatusPayload = APIPayload<APIApplicationStatus>;
 
 /**
- * @see /apps/all/status https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * @see /apps/status https://docs.squarecloud.app/api-reference/endpoint/apps/status-all
  */
 export interface APIApplicationStatusAll {
 	id: ApplicationId;

@@ -44,5 +44,3 @@ export interface APINetworkDNS {
 }
 
 export type APINetworkDNSPayload = APIPayload<APINetworkDNS[]>;
-
-

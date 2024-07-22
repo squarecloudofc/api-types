@@ -3,7 +3,7 @@ import type { ApplicationLanguage } from "./application";
 
 /**
  * APIUserPlan#name
- * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
  */
 export enum UserPlanName {
 	Free = "free",
@@ -33,7 +33,7 @@ export enum UserPlanName {
 
 /**
  * APIUserPlan#memory
- * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
  */
 export interface APIUserPlanMemory {
 	limit: number;
@@ -43,7 +43,7 @@ export interface APIUserPlanMemory {
 
 /**
  * APIUser#plan
- * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
  */
 export interface APIUserPlan {
 	name: UserPlanName;
@@ -53,7 +53,7 @@ export interface APIUserPlan {
 
 /**
  * APIUser
- * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
  */
 export interface APIUser {
 	id: UserId;
@@ -64,7 +64,7 @@ export interface APIUser {
 
 /**
  * APIUserApplication
- * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
  */
 export interface APIUserApplication {
 	id: ApplicationId;
@@ -76,7 +76,7 @@ export interface APIUserApplication {
 }
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/user/info
+ * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
  */
 export interface APIUserInfo {
 	user: APIUser;
