@@ -4,6 +4,6 @@ export * from "./deploy";
 export * from "./files";
 export * from "./logs";
 export * from "./network";
-export * from "./statistics";
+export * from "./service";
 export * from "./status";
 export * from "./user";
