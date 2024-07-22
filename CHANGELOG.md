@@ -1,5 +1,21 @@
 # @squarecloud/api-types
 
+## 0.3.0
+
+### Minor Changes
+
+- ef69efb: Add typings for `/apps/:appId/network/dns` (`APINetworkDNS`)
+- 78f00c9: Add `RESTPostAPIApplicationBackup` and update `APIApplicationBackup`
+- 211a9d4: Update file-related typings to match new API convention
+- 3ef25a4: Implement branded types for UserId and ApplicationId
+- 211a9d4: Add typings for `PATCH /apps/:appId/files`
+- 58d009d: Add typings for `/apps/:appId/network/custom` (`RESTPostAPINetworkCustomDomainJSONBody`)
+- a15ce71: Add typings for `/service/status` (`APIServiceStatus`)
+
+### Patch Changes
+
+- b3c226d: Completely remove deprecated `tag` and `isWebsite` properties
+
 ## 0.2.5
 
 ### Patch Changes
