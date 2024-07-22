@@ -1,14 +1,38 @@
 import type { APIPayloadStatusOnly } from "../../common/v2";
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/create
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/content
  */
-export interface RESTPostAPIFileCreateJSONBody {
+export interface RESTGetAPIFileContentQuery {
 	path: string;
-	buffer: number[];
 }
 
-export type RESTPostAPIFileCreateResultPayload = APIPayloadStatusOnly;
+/**
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
+ */
+export interface RESTGetAPIFilesListQuery {
+	path: string;
+}
+
+/**
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/put
+ */
+export interface RESTPutAPIFileUpsertJSONBody {
+	path: string;
+	content: string;
+}
+
+export type RESTPutAPIFileUpsertResultPayload = APIPayloadStatusOnly;
+
+/**
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/patch
+ */
+export interface RESTPatchAPIFileMoveJSONBody {
+	path: string;
+	to: string;
+}
+
+export type RESTPatchAPIFileMoveResultPayload = APIPayloadStatusOnly;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/delete
