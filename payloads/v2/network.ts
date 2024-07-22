@@ -26,3 +26,23 @@ export interface APINetworkAnalytics {
 }
 
 export type APINetworkAnalyticsPayload = APIPayload<APINetworkAnalytics>;
+
+/**
+ * APINetworkDNS#status
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/network/dns
+ */
+export type APINetworkDNSStatus = "pending" | "pending_validation" | "active";
+
+/**
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/network/dns
+ */
+export interface APINetworkDNS {
+	type: string;
+	name: string;
+	value: string;
+	status: APINetworkDNSStatus;
+}
+
+export type APINetworkDNSPayload = APIPayload<APINetworkDNS[]>;
+
+
