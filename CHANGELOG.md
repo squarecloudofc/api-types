@@ -1,5 +1,11 @@
 # @squarecloud/api-types
 
+## 0.3.1
+
+### Patch Changes
+
+- 5e67a46: Add typings for `/apps/:appId/deployments/current` (`APIDeploymentCurrent`)
+
 ## 0.3.0
 
 ### Minor Changes
