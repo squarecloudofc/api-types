@@ -1,5 +1,12 @@
 # @squarecloud/api-types
 
+## 0.3.2
+
+### Patch Changes
+
+- 79b1e02: Make deployment state an enum: `DeploymentState`
+- 5b1f4af: Update `ApplicationLanguage` enum with new `dotnet` lang
+
 ## 0.3.1
 
 ### Patch Changes
