@@ -36,6 +36,7 @@
 		"clean": "rimraf {common,payloads,rest}/**/*.{*js,d.*ts,*map} {utils,v*}.{*js,d.*ts,*map}",
 		"lint": "biome check --fix .",
 		"tsc": "tsup",
+		"check-types": "tsc --noEmit",
 		"prepublishOnly": "run-s clean lint build",
 		"postpublish": "npm run clean",
 		"release": "npm run build && changeset publish"

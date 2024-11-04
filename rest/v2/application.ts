@@ -27,13 +27,6 @@ export interface RESTPostAPIApplicationCommitFormDataBody {
 	file: unknown;
 }
 
-/**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/commit
- */
-export interface RESTPostAPIApplicationCommitQuery {
-	restart?: boolean;
-}
-
 export interface RESTPostAPIApplicationCommitResultPayload
 	extends APIPayloadStatusOnly {
 	message?: string;
