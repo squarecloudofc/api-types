@@ -1,5 +1,11 @@
 # @squarecloud/api-types
 
+## 0.3.3
+
+### Patch Changes
+
+- df0a13d: Remove `RESTPostAPIApplicationCommitQuery` due to API changes
+
 ## 0.3.2
 
 ### Patch Changes
