@@ -32,7 +32,6 @@ export interface APIApplicationStatus {
 	running: boolean;
 	storage: string;
 	network: APIApplicationStatusNetwork;
-	requests: number;
 	uptime: number | null;
 }
 
