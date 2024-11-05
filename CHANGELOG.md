@@ -1,5 +1,11 @@
 # @squarecloud/api-types
 
+## 0.4.0
+
+### Minor Changes
+
+- 4d7babe: Remove `APIApplicationStatus#requests` due to API changes.
+
 ## 0.3.3
 
 ### Patch Changes
