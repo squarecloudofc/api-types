@@ -2,4 +2,6 @@
 "@squarecloud/api-types": minor
 ---
 
-Remove `APIApplicationStatus#requests` due to API changes.
+Update `UserPlanName` to include `Enterprise-16` new plan.
+Remove `Business` plan from `UserPlanName`.
+
