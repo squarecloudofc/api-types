@@ -1,5 +1,12 @@
 # @squarecloud/api-types
 
+## 0.4.0
+
+### Minor Changes
+
+- 4d7babe: Update `UserPlanName` to include `Enterprise-16` new plan.
+  Remove `Business` plan from `UserPlanName`.
+
 ## 0.3.3
 
 ### Patch Changes
