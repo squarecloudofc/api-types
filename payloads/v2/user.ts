@@ -11,7 +11,7 @@ export enum UserPlanName {
 	Hobby = "hobby",
 	Standard = "standard",
 	Pro = "pro",
-	Business = "business",
+	Enterprise16 = "enterprise-16",
 	Enterprise32 = "enterprise-32",
 	Enterprise48 = "enterprise-48",
 	Enterprise64 = "enterprise-64",
