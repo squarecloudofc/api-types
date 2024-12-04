@@ -4,10 +4,11 @@ import type { APIPayload } from "../../common/v2";
  * APIListedFile#type
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
  */
-export enum FileType {
-	File = "file",
-	Directory = "directory",
-}
+export type FileType = "file" | "directory";
+export const FileType = {
+	File: "file",
+	Directory: "directory",
+} as const;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list

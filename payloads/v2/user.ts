@@ -5,31 +5,45 @@ import type { ApplicationLanguage } from "./application";
  * APIUserPlan#name
  * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
  */
-export enum UserPlanName {
-	Free = "free",
-	Student = "student",
-	Hobby = "hobby",
-	Standard = "standard",
-	Pro = "pro",
-	Enterprise16 = "enterprise-16",
-	Enterprise32 = "enterprise-32",
-	Enterprise48 = "enterprise-48",
-	Enterprise64 = "enterprise-64",
-	Enterprise96 = "enterprise-96",
-	Enterprise128 = "enterprise-128",
-	Enterprise160 = "enterprise-160",
-	Enterprise192 = "enterprise-192",
-	Enterprise224 = "enterprise-224",
-	Enterprise256 = "enterprise-256",
-	Enterprise288 = "enterprise-288",
-	Enterprise320 = "enterprise-320",
-	Enterprise384 = "enterprise-384",
-	Enterprise448 = "enterprise-448",
-	Enterprise512 = "enterprise-512",
-	Enterprise640 = "enterprise-640",
-	Enterprise768 = "enterprise-768",
-	Enterprise1024 = "enterprise-1024",
-}
+export type EnterprisePlanSizes =
+	| 16
+	| 32
+	| 48
+	| 64
+	| 96
+	| 128
+	| 160
+	| 192
+	| 224
+	| 256
+	| 288
+	| 320
+	| 384
+	| 448
+	| 512
+	| 640
+	| 768
+	| 1024;
+
+/**
+ * APIUserPlan#name
+ * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
+ */
+type UserPlanName =
+	| "free"
+	| "student"
+	| "hobby"
+	| "standard"
+	| "pro"
+	| `enterprise-${EnterprisePlanSizes}`;
+export const UserPlanName = {
+	Free: "free",
+	Student: "student",
+	Hobby: "hobby",
+	Standard: "standard",
+	Pro: "pro",
+	Enterprise: (size: EnterprisePlanSizes) => `enterprise-${size}`,
+};
 
 /**
  * APIUserPlan#memory

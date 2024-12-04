@@ -4,14 +4,21 @@ import type { APIPayload, ApplicationId } from "../../common/v2";
  * APIApplicationStatus#status
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
  */
-export enum ApplicationStatus {
-	Exited = "exited",
-	Created = "created",
-	Starting = "starting",
-	Restarting = "restarting",
-	Deleting = "deleting",
-	Running = "running",
-}
+export type ApplicationStatus =
+	| "exited"
+	| "created"
+	| "starting"
+	| "restarting"
+	| "deleting"
+	| "running";
+export const ApplicationStatus = {
+	Exited: "exited",
+	Created: "created",
+	Starting: "starting",
+	Restarting: "restarting",
+	Deleting: "deleting",
+	Running: "running",
+};
 
 /**
  * APIApplicationStatus#network

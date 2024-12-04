@@ -4,18 +4,29 @@ import type { APIPayload, ApplicationId } from "../../common/v2";
  * APIApplication#language
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
  */
-export enum ApplicationLanguage {
-	JavaScript = "javascript",
-	TypeScript = "typescript",
-	Python = "python",
-	Java = "java",
-	Elixir = "elixir",
-	Go = "go",
-	Rust = "rust",
-	PHP = "php",
-	Dotnet = "dotnet",
-	Static = "static",
-}
+export type ApplicationLanguage =
+	| "javascript"
+	| "typescript"
+	| "python"
+	| "java"
+	| "elixir"
+	| "go"
+	| "rust"
+	| "php"
+	| "dotnet"
+	| "static";
+export const ApplicationLanguage = {
+	JavaScript: "javascript",
+	TypeScript: "typescript",
+	Python: "python",
+	Java: "java",
+	Elixir: "elixir",
+	Go: "go",
+	Rust: "rust",
+	PHP: "php",
+	Dotnet: "dotnet",
+	Static: "static",
+} as const;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info

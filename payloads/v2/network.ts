@@ -32,6 +32,11 @@ export type APINetworkAnalyticsPayload = APIPayload<APINetworkAnalytics>;
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/network/dns
  */
 export type APINetworkDNSStatus = "pending" | "pending_validation" | "active";
+export const APINetworkDNSStatus = {
+	Pending: "pending",
+	PendingValidation: "pending_validation",
+	Active: "active",
+};
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/network/dns

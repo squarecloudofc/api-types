@@ -4,12 +4,13 @@ import type { APIPayload, ISODateString } from "../../common/v2";
  * APIDeploy#state
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/list
  */
-export enum DeploymentState {
-	Pending = "pending",
-	Clone = "clone",
-	Success = "success",
-	Error = "error",
-}
+export type DeploymentState = "pending" | "clone" | "success" | "error";
+export const DeploymentState = {
+	Pending: "pending",
+	Clone: "clone",
+	Success: "success",
+	Error: "error",
+} as const;
 
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/deploy/list
