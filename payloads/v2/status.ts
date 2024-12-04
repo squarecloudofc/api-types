@@ -40,12 +40,11 @@ export type APIApplicationStatusPayload = APIPayload<APIApplicationStatus>;
 /**
  * @see /apps/status https://docs.squarecloud.app/api-reference/endpoint/apps/status-all
  */
-export interface APIApplicationStatusAll {
+export type APIApplicationStatusAll<Running extends boolean = boolean> = {
 	id: ApplicationId;
-	cpu?: string;
-	ram?: string;
-	running: boolean;
-}
+} & (Running extends true
+	? { running: true; cpu: string; ram: string }
+	: { running: false; cpu?: never; ram?: never });
 
 export type APIApplicationStatusAllPayload = APIPayload<
 	APIApplicationStatusAll[]
