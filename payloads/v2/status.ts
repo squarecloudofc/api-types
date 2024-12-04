@@ -42,8 +42,8 @@ export type APIApplicationStatusPayload = APIPayload<APIApplicationStatus>;
  */
 export interface APIApplicationStatusAll {
 	id: ApplicationId;
-	cpu: string;
-	ram: string;
+	cpu?: string;
+	ram?: string;
 	running: boolean;
 }
 
