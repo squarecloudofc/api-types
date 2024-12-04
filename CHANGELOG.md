@@ -1,5 +1,13 @@
 # @squarecloud/api-types
 
+## 0.5.0
+
+### Minor Changes
+
+- 5a39642: Add enterprise plan sizes type
+- 3bfd7c6: Fix `APIApplicationStatusAll` to show/hide usage depending on `running` property.
+- 5a39642: Drop using enums.
+
 ## 0.4.0
 
 ### Minor Changes
