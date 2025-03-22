@@ -6,7 +6,7 @@ import type { ApplicationLanguage } from "./application";
  * @see https://docs.squarecloud.app/api-reference/endpoint/users/me
  */
 export type EnterprisePlanSizes =
-	| 16
+	| 24
 	| 32
 	| 48
 	| 64
@@ -31,16 +31,16 @@ export type EnterprisePlanSizes =
  */
 type UserPlanName =
 	| "free"
-	| "student"
 	| "hobby"
 	| "standard"
+	| "advanced"
 	| "pro"
 	| `enterprise-${EnterprisePlanSizes}`;
 export const UserPlanName = {
 	Free: "free",
-	Student: "student",
 	Hobby: "hobby",
 	Standard: "standard",
+	Advanced: "advanced",
 	Pro: "pro",
 	Enterprise: (size: EnterprisePlanSizes) => `enterprise-${size}`,
 };
