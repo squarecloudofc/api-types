@@ -4,6 +4,7 @@
 	"private": false,
 	"description": "Typings for Square Cloud API",
 	"homepage": "https://github.com/squarecloudofc/api-types#readme",
+	"packageManager": "pnpm@10.11.0",
 	"exports": {
 		"./v*": {
 			"types": "./v*.d.ts",
@@ -45,13 +46,7 @@
 		"type": "git",
 		"url": "git+https://github.com/squarecloudofc/api-types.git"
 	},
-	"keywords": [
-		"square",
-		"squarecloud",
-		"api",
-		"squarecloud api",
-		"types"
-	],
+	"keywords": ["square", "squarecloud", "api", "squarecloud api", "types"],
 	"author": "João Tonaco <joaotonaco@squarecloud.app>",
 	"license": "MIT",
 	"bugs": {
