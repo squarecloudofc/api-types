@@ -44,11 +44,17 @@ export interface RESTPostAPIApplicationUploadFormDataBody {
 	file: unknown;
 }
 
+/**
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/upload
+ */
 export interface RESTPostAPIApplicationUploadResultLanguage {
 	name: ApplicationLanguage;
 	version: string;
 }
 
+/**
+ * @see https://docs.squarecloud.app/api-reference/endpoint/apps/upload
+ */
 export interface RESTPostAPIApplicationUploadResult {
 	id: ApplicationId;
 	name: string;
