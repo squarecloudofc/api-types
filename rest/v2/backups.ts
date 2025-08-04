@@ -1,12 +1,9 @@
-import type { APIPayload } from "../../common/v2";
+/**
+ * @deprecated Use RESTPostAPIApplicationSnapshotResult instead
+ */
+export type RESTPostAPIApplicationBackupResult = never;
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/backup
+ * @deprecated Use RESTPostAPIApplicationSnapshotResultPayload instead
  */
-export interface RESTPostAPIApplicationBackupResult {
-	url: string;
-	key: string;
-}
-
-export type RESTPostAPIApplicationBackupResultPayload =
-	APIPayload<RESTPostAPIApplicationBackupResult>;
+export type RESTPostAPIApplicationBackupResultPayload = never;

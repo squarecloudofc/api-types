@@ -5,5 +5,6 @@ export * from "./files";
 export * from "./logs";
 export * from "./network";
 export * from "./service";
+export * from "./snapshots";
 export * from "./status";
 export * from "./user";
