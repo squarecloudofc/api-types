@@ -1,5 +1,11 @@
 # @squarecloud/api-types
 
+## 0.7.0
+
+### Minor Changes
+
+- 4153b54: Remove deprecated backup typings
+
 ## 0.6.0
 
 ### Minor Changes
