@@ -3,10 +3,10 @@ import type { APIPayload } from "../../common/v2";
 /**
  * @see https://docs.squarecloud.app/api-reference/endpoint/apps/snapshots
  */
-export interface RESTPostAPIApplicationSnapshotResult {
+export interface RESTPostAPISnapshotResult {
 	url: string;
 	key: string;
 }
 
-export type RESTPostAPIApplicationSnapshotResultPayload =
-	APIPayload<RESTPostAPIApplicationSnapshotResult>;
+export type RESTPostAPISnapshotResultPayload =
+	APIPayload<RESTPostAPISnapshotResult>;

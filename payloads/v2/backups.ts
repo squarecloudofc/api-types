@@ -1,9 +1,9 @@
 /**
- * @deprecated Use APIApplicationSnapshot instead
+ * @deprecated Use APISnapshot instead
  */
 export type APIApplicationBackup = never;
 
 /**
- * @deprecated Use APIApplicationSnapshotsPayload instead
+ * @deprecated Use APISnapshotsPayload instead
  */
 export type APIApplicationBackupsPayload = never;
