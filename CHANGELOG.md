@@ -1,5 +1,12 @@
 # @squarecloud/api-types
 
+## 0.6.0
+
+### Minor Changes
+
+- d788f4c: Rename application backups to snapshots
+- a3cf61a: Add typings for `/apps/:appId/network/purge_cache`
+
 ## 0.5.0
 
 ### Minor Changes
