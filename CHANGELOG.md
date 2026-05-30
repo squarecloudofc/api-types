@@ -1,5 +1,11 @@
 # @squarecloud/api-types
 
+## 2.0.0
+
+### Major Changes
+
+- 74df421: Remove `RESTPostAPINetworkPurgeCacheJSONBody` — the purge cache endpoint no longer accepts a body.
+
 ## 1.0.0
 
 ### Major Changes
