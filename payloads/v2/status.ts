@@ -1,8 +1,12 @@
-import type { APIPayload, ApplicationId } from "../../common/v2";
+import type {
+	APIPayload,
+	ApplicationId,
+	RuntimeStatsListItem,
+} from "../../common/v2";
 
 /**
  * APIApplicationStatus#status
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status
  */
 export type ApplicationStatus =
 	| "exited"
@@ -22,7 +26,7 @@ export const ApplicationStatus = {
 
 /**
  * APIApplicationStatus#network
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatusNetwork {
 	total: string;
@@ -30,7 +34,7 @@ export interface APIApplicationStatusNetwork {
 }
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/status
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatus {
 	cpu: string;
@@ -45,13 +49,10 @@ export interface APIApplicationStatus {
 export type APIApplicationStatusPayload = APIPayload<APIApplicationStatus>;
 
 /**
- * @see /apps/status https://docs.squarecloud.app/api-reference/endpoint/apps/status-all
+ * @see /apps/status https://docs.squarecloud.app/en/api-reference/endpoint/apps/status-all
  */
-export type APIApplicationStatusAll<Running extends boolean = boolean> = {
-	id: ApplicationId;
-} & (Running extends true
-	? { running: true; cpu: string; ram: string }
-	: { running: false; cpu?: never; ram?: never });
+export type APIApplicationStatusAll<Running extends boolean = boolean> =
+	RuntimeStatsListItem<ApplicationId, Running>;
 
 export type APIApplicationStatusAllPayload = APIPayload<
 	APIApplicationStatusAll[]

@@ -1,31 +1,42 @@
-import type { APIPayloadStatusOnly } from "../../common/v2";
+import type { APIPayload, APIPayloadStatusOnly } from "../../common/v2";
+import type { APIReadFile } from "../../payloads/v2/files";
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/content
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/content
  */
 export interface RESTGetAPIFileContentQuery {
 	path: string;
 }
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/list
  */
 export interface RESTGetAPIFilesListQuery {
 	path: string;
 }
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/put
+ * Body for `PUT /v2/apps/{appId}/files`. `content` accepts either a UTF-8
+ * string (text files) or a Node-style Buffer JSON object (binary files).
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/put
  */
 export interface RESTPutAPIFileUpsertJSONBody {
 	path: string;
-	content: string;
+	content: string | APIReadFile;
 }
 
-export type RESTPutAPIFileUpsertResultPayload = APIPayloadStatusOnly;
+/**
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/put
+ */
+export interface RESTPutAPIFileUpsertResult {
+	written: boolean;
+}
+
+export type RESTPutAPIFileUpsertResultPayload =
+	APIPayload<RESTPutAPIFileUpsertResult>;
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/patch
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/patch
  */
 export interface RESTPatchAPIFileMoveJSONBody {
 	path: string;
@@ -35,7 +46,7 @@ export interface RESTPatchAPIFileMoveJSONBody {
 export type RESTPatchAPIFileMoveResultPayload = APIPayloadStatusOnly;
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/delete
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/delete
  */
 export interface RESTDeleteAPIFileDeleteQuery {
 	path: string;

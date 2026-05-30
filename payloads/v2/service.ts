@@ -1,7 +1,7 @@
 import type { APIPayload } from "../../common/v2";
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/service/status
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/service/status
  */
 export interface APIServiceStatus {
 	status: string;

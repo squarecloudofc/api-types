@@ -1,8 +1,8 @@
-import type { APIPayload } from "../../common/v2";
+import type { APIPayload, ISODateString } from "../../common/v2";
 
 /**
  * APIListedFile#type
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/list
  */
 export type FileType = "file" | "directory";
 export const FileType = {
@@ -11,22 +11,24 @@ export const FileType = {
 } as const;
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/list
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/list
  */
 export interface APIListedFile {
 	type: FileType;
 	name: string;
 	size: number;
-	lastModified: number;
+	lastModified: ISODateString;
 }
 
 export type APIFileListPayload = APIPayload<APIListedFile[]>;
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/filemanager/read
+ * File content returned by `GET /v2/apps/{appId}/files/content` as a Node-style
+ * Buffer object — `data` is the raw byte array.
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/read
  */
 export interface APIReadFile {
-	type: string;
+	type: "Buffer";
 	data: number[];
 }
 

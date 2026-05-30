@@ -1,5 +1,124 @@
 # @squarecloud/api-types
 
+## 1.0.0
+
+### Major Changes
+
+- Port the ~30 missing v10.5 endpoint typings from the Node.js SDK draft, and
+  realign the existing Network Analytics typings with the current OpenAPI
+  (v10.5.0). New coverage:
+
+  - Branded `DatabaseId` and `WorkspaceId` plus a shared
+    `RuntimeStatsListItem<TId, Running>` used by both `APIApplicationStatusAll`
+    and `APIDatabaseStatusListItem`.
+  - `APIEnvVars` payload and POST/PUT/DELETE bodies for `/v2/apps/{appId}/envs`.
+  - `APIMetrics` (24h × 5min points) for `/v2/apps/{appId}/metrics` and
+    `/v2/databases/{databaseId}/metrics`.
+  - Snapshot restore body and `RESTGetAPIUserSnapshotsQuery` with the new
+    `SnapshotScope` ("applications" | "databases").
+  - `APIGithubAppLinkResponse`, `RESTPostAPIGithubAppJSONBody`, and the
+    `app: { id, name, branch }` field on `APIDeploymentCurrent`.
+  - Full Network category: `APINetworkAnalyticsBucket`,
+    `APINetworkAnalyticsTimeBucket`, `APINetworkErrors`, `APINetworkLogs`,
+    `APINetworkPerformance`, plus `RESTAPINetworkRangeQuery` /
+    `RESTAPINetworkErrorsQuery`.
+  - Full Databases category: `APIDatabase`, `APIDatabaseSummary`,
+    `APIDatabaseCreated`, `APIDatabaseStatus` (alias of `APIApplicationStatus`),
+    `APIDatabaseStatusListItem`, certificate + credentials reset typings, plus
+    POST/PATCH/DELETE/start/stop bodies.
+  - Full Workspaces category: `APIWorkspace`, members, applications, invite
+    code, and all mutation bodies.
+  - `APIRealtimeSystemEvent` union for SSE protocol events.
+  - `RESTGetAPIApplicationStatusAllQuery` adds the new optional `workspaceId`
+    query parameter on `GET /v2/apps/status`.
+
+  **`APIDeployment` realigned with production response** (the OpenAPI 10.5
+  description of this endpoint was incorrect — verified against a live response):
+
+  - `APIDeployPayload.response` is now `APIDeployment[][]` (nested) — outer is
+    the list of recent deploys, inner is the timeline of events for each
+    deploy.
+  - `APIDeployment` is now a discriminated union on `state`:
+    - `clone` events carry `branch: string`
+    - `commit` events carry `files: { added, removed, modified }`
+    - all other states have only `{ id, state, date }`
+  - `DeploymentState` adds `"commit"` and `"restarting"`.
+  - `APIDeployment.id` is now `string` (40-char SHA-1 commit hash) instead of
+    the previous `` `git-${string}` `` template literal.
+
+  **Realigned pre-existing endpoint typings with production** (all validated
+  against live responses with the API team):
+
+  - `APINetworkDNSPayload` shape replaced. The endpoint returns a single object
+    `{ ownership: { type, name, value }, ssl: { status } }`, not the array of
+    DNS records the previous type declared. `APINetworkDNSStatus` now describes
+    the SSL validation state, applied to `APINetworkDNS.ssl.status`.
+  - `APIListedFile.lastModified` is now `ISODateString` (was `number`).
+  - `APIReadFile.type` is now the literal `"Buffer"` (was `string`).
+  - `RESTPutAPIFileUpsertJSONBody.content` accepts `string | APIReadFile`
+    (string or Node-style Buffer JSON object), not just `string`.
+  - `RESTPutAPIFileUpsertResultPayload` now carries `response: { written: boolean }`
+    instead of being status-only.
+  - `RESTPostAPIApplicationUploadResult` simplified to `{ id, name, lang, ram }`
+    to match the actual upload response. `RESTPostAPIApplicationUploadResultLanguage`
+    is removed; `lang` is a plain `string` slug (e.g. `"nodejs"`).
+  - `RESTPostAPIGithubWebhookResultPayload` is no longer
+    `APIPayload<{ webhook }>` because `response` is absent when the webhook is
+    removed (`access_token: "@"`). It now extends `APIPayloadStatusOnly` with an
+    optional `response`.
+  - `UserPlanName` rewritten. Paid tiers are always suffixed with their RAM
+    size in GB (`hobby-1`/`hobby-2`, `standard-4`/`standard-6`/`standard-8`,
+    `pro-12`/`pro-16`/`pro-24`, `enterprise-<N>`); only `free` has no suffix.
+    The previous union accepted plain `"hobby"`/`"standard"`/`"pro"` (without
+    size) which the backend never returns. The `"advanced"` tier is removed
+    (no such tier exists in production). Added `HobbyPlanSizes`,
+    `StandardPlanSizes`, `ProPlanSizes` type helpers; the `UserPlanName`
+    helper now requires a size for paid tiers
+    (`UserPlanName.Pro(16)` → `"pro-16"`).
+  - `APIWorkspaceApp.lang` is now `ApplicationLanguage` (was `string`) — same
+    vocabulary as `APIApplication.language` and `APIUserApplication.lang`.
+  - `RESTPostAPIApplicationUploadResult.lang` is now `ApplicationLanguage` (was
+    `string`).
+  - `APIApplication` gains required `created_at: ISODateString` (backend has
+    always returned it; the type just didn't declare it). `APIWebsiteApplication`
+    inherits it.
+  - `APIWorkspaceMember.joinedAt` is now required (was optional).
+  - `RESTPostAPIApplicationCommitResultPayload` simplified to
+    `APIPayloadStatusOnly`. The previous `message?: string` field was a vestige
+    of an old shared success/error interface and never appears on real success
+    responses.
+  - `APINetworkPerformancePayload` now allows the empty-object response variant
+    (`APIPayload<APINetworkPerformance | Record<string, never>>`) — consistent
+    with analytics and errors. Backend returns `{}` when the requested window
+    precedes the application's creation date.
+
+  **Breaking changes vs 0.6.0:**
+
+  - `APINetworkAnalytics` response shape replaced. The new shape matches the
+    OpenAPI `NetworkAnalytics`: per-dimension breakdowns (`visits`, `countries`,
+    `devices`, `os`, `browsers`, `protocols`, `methods`, `paths`, `referers`,
+    `providers`) each as arrays of 15-minute buckets. Fields removed from the
+    previous shape: `hostname`, `total`, `agents`, `hosts`. Fields renamed:
+    `deviceTypes` → `devices`, `operatingSystems` → `os`. The endpoint now also
+    requires `start`/`end` ISO timestamps (`RESTGetAPINetworkAnalyticsQuery`).
+    `APINetworkAnalyticsPayload` is now `APIPayload<APINetworkAnalytics | Record<string, never>>`
+    because the backend returns `{}` when the requested window precedes the
+    application's creation date.
+  - `APINetworkErrorsPayload` likewise becomes
+    `APIPayload<APINetworkErrors | Record<string, never>>` for the same reason.
+  - `APINetworkErrorsTopPath.method` and `APINetworkErrorsByMethod.method` are
+    now `string | null` (edge may not attribute a method).
+  - `APIDeploymentCurrent.webhook` is now optional. Either `app`, `webhook`, or
+    both may be present.
+  - `APIUser` gains required `locale` and `created_at`.
+  - `APIUserApplication` gains required `domain: string | null`,
+    `custom: string | null`, and `created_at` to match the OpenAPI `AppSummary`.
+  - `APIUserInfo` gains required `databases: APIDatabaseSummary[]`.
+
+### Minor Changes
+
+- 4153b54: Remove deprecated backup typings
+
 ## 0.6.0
 
 ### Minor Changes

@@ -1,8 +1,8 @@
 import type { APIPayload, ISODateString } from "../../common/v2";
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/snapshots
- * @see https://docs.squarecloud.app/api-reference/endpoint/users/snapshots
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/snapshots
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/snapshots
  */
 export interface APISnapshot {
 	name: string;

@@ -1,8 +1,8 @@
-import type { APIPayload, ApplicationId } from "../../common/v2";
+import type { APIPayload, ApplicationId, ISODateString } from "../../common/v2";
 
 /**
  * APIApplication#language
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/info
  */
 export type ApplicationLanguage =
 	| "javascript"
@@ -29,7 +29,7 @@ export const ApplicationLanguage = {
 } as const;
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/info
  */
 export interface APIApplication {
 	id: ApplicationId;
@@ -39,12 +39,13 @@ export interface APIApplication {
 	cluster: string;
 	ram: number;
 	language: ApplicationLanguage;
+	created_at: ISODateString;
 }
 
 export type APIApplicationPayload = APIPayload<APIApplication>;
 
 /**
- * @see https://docs.squarecloud.app/api-reference/endpoint/apps/info
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/info
  */
 export interface APIWebsiteApplication extends APIApplication {
 	domain: string;

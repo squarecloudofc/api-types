@@ -1,6 +1,6 @@
 # Square Cloud API Types
 
-Simple type definitions for the [Square Cloud API](https://docs.squarecloud.app/api-reference/).
+Simple type definitions for the [Square Cloud API](https://docs.squarecloud.app/en/api-reference/).
 
 [![GitHub](https://img.shields.io/github/license/discordjs/discord-api-types)](https://github.com/discordjs/discord-api-types/blob/main/LICENSE.md)
 [![npm](https://img.shields.io/npm/v/@squarecloud/api-types?color=crimson&logo=npm)](https://www.npmjs.com/package/@squarecloud/api-types)
