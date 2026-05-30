@@ -12,10 +12,6 @@ export type RESTPostAPINetworkCustomDomainResultPayload = APIPayloadStatusOnly;
 /**
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/purge_cache
  */
-export interface RESTPostAPINetworkPurgeCacheJSONBody {
-	paths: string[];
-}
-
 export type RESTPostAPINetworkPurgeCacheResultPayload = APIPayloadStatusOnly;
 
 /**
