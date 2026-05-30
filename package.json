@@ -34,7 +34,7 @@
 	},
 	"scripts": {
 		"build": "run-s lint tsc",
-		"clean": "rimraf {common,payloads,rest}/**/*.{*js,d.*ts,*map} {utils,v*}.{*js,d.*ts,*map}",
+		"clean": "rimraf --glob \"{common,payloads,rest}/**/*.{*js,d.*ts,*map}\" \"{utils,v*}.{*js,d.*ts,*map}\"",
 		"lint": "biome check --fix .",
 		"tsc": "tsup",
 		"check-types": "tsc --noEmit",
