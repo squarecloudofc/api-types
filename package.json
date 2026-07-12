@@ -1,0 +1,82 @@
+{
+	"name": "@squarecloud/api-types",
+	"version": "3.0.1",
+	"private": false,
+	"description": "Typings for Square Cloud API",
+	"homepage": "https://github.com/squarecloudofc/api-types#readme",
+	"packageManager": "pnpm@11.5.0",
+	"exports": {
+		"./v*": {
+			"types": "./v*.d.ts",
+			"require": "./v*.js",
+			"import": "./v*.mjs"
+		},
+		"./utils": {
+			"types": "./utils.d.ts",
+			"require": "./utils.js",
+			"import": "./utils.mjs"
+		},
+		"./common/v*": {
+			"types": "./common/v*.d.ts",
+			"require": "./common/v*.js",
+			"import": "./common/v*.mjs"
+		},
+		"./payloads/v*": {
+			"types": "./payloads/v*/index.d.ts",
+			"require": "./payloads/v*/index.js",
+			"import": "./payloads/v*/index.mjs"
+		},
+		"./rest/v*": {
+			"types": "./rest/v*/index.d.ts",
+			"require": "./rest/v*/index.js",
+			"import": "./rest/v*/index.mjs"
+		}
+	},
+	"scripts": {
+		"build": "run-s lint tsc",
+		"clean": "rimraf --glob \"{common,payloads,rest}/**/*.{*js,d.*ts,*map}\" \"{utils,v*}.{*js,d.*ts,*map}\"",
+		"lint": "biome check --fix .",
+		"tsc": "tsup",
+		"check-types": "tsc --noEmit",
+		"prepublishOnly": "run-s clean lint build",
+		"postpublish": "npm run clean",
+		"release": "npm run build && changeset publish"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/squarecloudofc/api-types.git"
+	},
+	"keywords": [
+		"square",
+		"squarecloud",
+		"api",
+		"squarecloud api",
+		"types"
+	],
+	"author": {
+		"name": "João Tonaco"
+	},
+	"contributors": [
+		{
+			"name": "João Otávio",
+			"email": "joao@squarecloud.app"
+		}
+	],
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/squarecloudofc/api-types/issues"
+	},
+	"files": [
+		"{common,payloads,rest}/**/*.{js,js.map,d.ts,d.ts.map,mjs}",
+		"{utils,v*}.{js,js.map,d.ts,d.ts.map,mjs}"
+	],
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.3",
+		"@changesets/cli": "^2.31.0",
+		"@types/node": "^26.1.1",
+		"npm-run-all2": "^9.0.2",
+		"rimraf": "^6.1.3",
+		"tsup": "^8.5.1",
+		"typescript": "^5.9.3"
+	}
+}
