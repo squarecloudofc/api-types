@@ -1,4 +1,4 @@
-import type { APIPayload, ISODateString } from "../../common/v2";
+import type { APIPayload, ApplicationId, ISODateString } from "../../common/v2";
 
 /**
  * Time bucket of the `visits` time series (15-minute window). Has no `type`
@@ -35,6 +35,23 @@ export interface APINetworkAnalyticsBucket {
 }
 
 /**
+ * Whole-window bucket (no time dimension) used by the `ips`, `status_codes`,
+ * `bots` and `content_types` breakdowns — totals over the requested range
+ * rather than 15-minute series.
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/analytics
+ */
+export interface APINetworkAnalyticsTotalBucket {
+	/** Dimension value for this bucket. */
+	type: string;
+	/** Unique visitor count. */
+	visits: number;
+	/** Total request count. */
+	requests: number;
+	/** Response bytes served. */
+	bytes: number;
+}
+
+/**
  * Aggregated edge analytics returned by `/v2/apps/{appId}/network/analytics`.
  * Each breakdown is an array of 15-minute buckets. The endpoint requires
  * `start`/`end` ISO timestamps (max 7 days retention; `start` is clamped to
@@ -60,6 +77,23 @@ export interface APINetworkAnalytics {
 	paths: APINetworkAnalyticsBucket[];
 	referers: APINetworkAnalyticsBucket[];
 	providers: APINetworkAnalyticsBucket[];
+	/**
+	 * Top client IPs by request count over the whole window. IPs originating
+	 * from Square Cloud's own network are masked (`X.X.XXX.XXX`).
+	 */
+	ips: APINetworkAnalyticsTotalBucket[];
+	/** Edge response status codes over the whole window (all classes, not just errors). */
+	status_codes: APINetworkAnalyticsTotalBucket[];
+	/**
+	 * Verified-bot categories over the whole window. Traffic without a verified
+	 * bot category is `type: "Unverified"`.
+	 */
+	bots: APINetworkAnalyticsTotalBucket[];
+	/**
+	 * Response content types over the whole window. Unknown content types are
+	 * `type: "Unknown"`.
+	 */
+	content_types: APINetworkAnalyticsTotalBucket[];
 }
 
 /**
@@ -72,7 +106,19 @@ export type APINetworkAnalyticsPayload = APIPayload<
 >;
 
 /**
- * SSL validation state for a custom domain attached to an application.
+ * DNS record type returned by the DNS endpoint. `txt` covers both ownership
+ * and SSL validation; `cname` is the traffic record.
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
+ */
+export type APINetworkDNSRecordType = "txt" | "cname";
+export const APINetworkDNSRecordType = {
+	TXT: "txt",
+	CNAME: "cname",
+} as const;
+
+/**
+ * Known validation states for a DNS record. `status` is passed through from
+ * the edge provider, so other values may appear.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
  */
 export type APINetworkDNSStatus = "pending" | "pending_validation" | "active";
@@ -83,36 +129,30 @@ export const APINetworkDNSStatus = {
 } as const;
 
 /**
- * DNS record the user must add at their registrar so the edge provider can
- * validate ownership of the custom domain.
+ * One DNS record the user must set at their DNS provider for the custom
+ * domain to validate and receive traffic.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
  */
-export interface APINetworkDNSOwnership {
-	/** DNS record type, e.g. `"TXT"`. */
-	type: string;
-	/** Record name to create at the registrar. */
+export interface APINetworkDNSRecord {
+	type: APINetworkDNSRecordType;
+	/** Record name to set at the DNS provider. */
 	name: string;
-	/** Record value to set. */
+	/** Record value. For `cname`, this is always `cname.squareweb.app`. */
 	value: string;
+	/**
+	 * Upstream validation state (e.g. `pending`, `pending_validation`,
+	 * `active` — see {@link APINetworkDNSStatus}). Passed through from the
+	 * edge provider.
+	 */
+	status: string;
 }
 
 /**
- * SSL status block returned alongside the ownership record.
+ * Response of `GET /v2/apps/{appId}/network/dns` — the DNS records the user
+ * must configure, with their current validation state.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
  */
-export interface APINetworkDNSSSL {
-	status: APINetworkDNSStatus;
-}
-
-/**
- * Response of `GET /v2/apps/{appId}/network/dns` — DNS records the user must
- * configure plus the current SSL validation state.
- * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
- */
-export interface APINetworkDNS {
-	ownership: APINetworkDNSOwnership;
-	ssl: APINetworkDNSSSL;
-}
+export type APINetworkDNS = APINetworkDNSRecord[];
 
 export type APINetworkDNSPayload = APIPayload<APINetworkDNS>;
 
@@ -340,3 +380,77 @@ export interface APINetworkPerformance {
 export type APINetworkPerformancePayload = APIPayload<
 	APINetworkPerformance | Record<string, never>
 >;
+
+/**
+ * Kind of hostname listed by `GET /v2/apps/domains` — `subdomain` for the
+ * default `*.squareweb.app` hostname, `custom` for an attached custom domain.
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/domains
+ */
+export type APIAppDomainType = "subdomain" | "custom";
+export const APIAppDomainType = {
+	Subdomain: "subdomain",
+	Custom: "custom",
+} as const;
+
+/**
+ * One hostname configured on one of the account's applications, as returned
+ * by `GET /v2/apps/domains`. Custom domains are listed first, followed by the
+ * default subdomains; applications without a web domain are omitted.
+ *
+ * Served from the cached project list (does not count against per-application
+ * network rate limits). Rate limited to 20 requests per 60s per user.
+ *
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/domains
+ */
+export interface APIAppDomain {
+	/** Application the domain belongs to. */
+	app_id: ApplicationId;
+	/** The fully qualified hostname. */
+	hostname: string;
+	type: APIAppDomainType;
+}
+
+export type APIAppDomainsPayload = APIPayload<APIAppDomain[]>;
+
+/**
+ * Application serving a load-balanced custom domain.
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/load-balancers
+ */
+export interface APILoadBalancerApp {
+	id: ApplicationId;
+	name: string;
+	/** Cluster currently hosting the application. */
+	cluster?: string;
+}
+
+/**
+ * One custom domain and the applications serving it. A group with two or more
+ * applications is an active load balancer — traffic is balanced across them
+ * at the edge, with automatic failover when an application is offline.
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/load-balancers
+ */
+export interface APILoadBalancer {
+	/** The custom domain. */
+	hostname: string;
+	apps: APILoadBalancerApp[];
+}
+
+/**
+ * Response of `GET /v2/apps/load-balancers` — the caller's applications
+ * grouped by attached custom domain.
+ *
+ * Served from the cached project list. Rate limited to 20 requests per 60s
+ * per user.
+ *
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/load-balancers
+ */
+export interface APILoadBalancers {
+	/**
+	 * Maximum applications allowed on one domain for the caller's plan:
+	 * 2 on Standard, 5 on Pro, 10 on Enterprise.
+	 */
+	limit: number;
+	balancers: APILoadBalancer[];
+}
+
+export type APILoadBalancersPayload = APIPayload<APILoadBalancers>;

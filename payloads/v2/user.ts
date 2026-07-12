@@ -96,7 +96,10 @@ export interface APIUser {
 	id: UserId;
 	name: string;
 	email: string;
-	/** Preferred locale (e.g. `pt-BR`, `en-US`, `es-ES`, `zh-CN`). */
+	/**
+	 * Preferred locale (e.g. `pt-BR`, `en-US`, `es-ES`, `zh-CN`, `ja-JP`,
+	 * `fr-FR`, `de-DE`, `it-IT`).
+	 */
 	locale: string;
 	plan: APIUserPlan;
 	created_at: ISODateString;

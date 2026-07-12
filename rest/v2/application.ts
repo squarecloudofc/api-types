@@ -16,6 +16,16 @@ export interface RESTGetAPIApplicationStatusAllQuery {
 }
 
 /**
+ * Query for `GET /v2/apps/{appId}/status` (and the database equivalent) —
+ * pass `rawData=true` to receive raw numbers instead of formatted strings
+ * (type the response with `APIApplicationStatus<true>`).
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status
+ */
+export interface RESTGetAPIApplicationStatusQuery {
+	rawData?: "true" | "false";
+}
+
+/**
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/start
  */
 export type RESTPostAPIApplicationStartResultPayload = APIPayloadStatusOnly;
@@ -37,6 +47,15 @@ export interface RESTPostAPIApplicationCommitFormDataBody {
 	file: unknown;
 }
 
+/**
+ * Query for `POST /v2/apps/{appId}/commit` — optional destination directory
+ * inside the application (no traversal, no shell metacharacters).
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/commit
+ */
+export interface RESTPostAPIApplicationCommitQuery {
+	path?: string;
+}
+
 export type RESTPostAPIApplicationCommitResultPayload = APIPayloadStatusOnly;
 
 /**
@@ -52,14 +71,34 @@ export interface RESTPostAPIApplicationUploadFormDataBody {
 }
 
 /**
+ * Runtime detected for an uploaded application.
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/upload
+ */
+export interface RESTPostAPIApplicationUploadLanguage {
+	name: ApplicationLanguage;
+	/** Detected runtime version (e.g. `22`, `3.12`). */
+	version: string;
+}
+
+/**
+ * Response of `POST /v2/apps`. `description` and `subdomain` are present only
+ * when set in `squarecloud.config`. Client-side upload aborts surface as the
+ * `UPLOAD_ABORTED` error code.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/upload
  */
 export interface RESTPostAPIApplicationUploadResult {
 	id: ApplicationId;
 	name: string;
-	lang: ApplicationLanguage;
+	/** Optional description (from `DESCRIPTION` in `squarecloud.config`). Omitted when unset. */
+	description?: string;
+	/** Optional `<subdomain>.squareweb.app` host (from `SUBDOMAIN` in `squarecloud.config`). Omitted for non-web apps. */
+	subdomain?: string;
 	/** Allocated memory in MB. */
 	ram: number;
+	/** Allocated CPU shares. */
+	cpu: number;
+	/** Detected runtime. */
+	language: RESTPostAPIApplicationUploadLanguage;
 }
 
 export type RESTPostAPIApplicationUploadResultPayload =

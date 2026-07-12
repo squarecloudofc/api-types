@@ -78,9 +78,12 @@ export type APIDatabaseCreatedPayload = APIPayload<APIDatabaseCreated>;
  * Shares the `RuntimeStats` shape with `APIApplicationStatus`.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/status
  */
-export type APIDatabaseStatus = APIApplicationStatus;
+export type APIDatabaseStatus<Raw extends boolean = false> =
+	APIApplicationStatus<Raw>;
 
-export type APIDatabaseStatusPayload = APIPayload<APIDatabaseStatus>;
+export type APIDatabaseStatusPayload<Raw extends boolean = false> = APIPayload<
+	APIDatabaseStatus<Raw>
+>;
 
 /**
  * Compact runtime stats entry for `/v2/databases/status`. Same shape as the

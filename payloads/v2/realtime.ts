@@ -7,6 +7,11 @@
  * does not enforce a schema. Consumers should `JSON.parse` and discriminate
  * internally per the feature they're listening to.
  *
+ * Connection limits: at most 5 simultaneous connections per user (plus a
+ * per-application cap) — exceeding it returns `REALTIME_MAX_CONNECTIONS`.
+ * Each connection has a 10-minute TTL with one transparent internal
+ * reconnection; clients must reconnect when the TTL expires.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/realtime
  */
 export type APIRealtimeSystemEvent =

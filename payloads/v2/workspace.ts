@@ -90,7 +90,8 @@ export type APIWorkspaceCreatedPayload =
 
 /**
  * Response of `GET /v2/workspaces/members/code`. The code is a UUID v4 without
- * hyphens (32 hex chars), valid for 5 minutes.
+ * hyphens (32 hex chars), valid for 5 minutes and **single-use** — it is
+ * consumed by the first successful join.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/workspaces/members/code
  */
 export interface APIWorkspaceInviteCodeResponse {

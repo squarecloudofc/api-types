@@ -9,10 +9,11 @@ export interface RESTGetAPIFileContentQuery {
 }
 
 /**
+ * Query for the file listing. `path` defaults to `/` when omitted.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/list
  */
 export interface RESTGetAPIFilesListQuery {
-	path: string;
+	path?: string;
 }
 
 /**
