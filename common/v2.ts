@@ -21,11 +21,8 @@ export type APIVersion<TVersion extends number> = `v${TVersion}`;
 /**
  * Machine-readable error codes returned in `APIPayload#code`.
  *
- * Canonical names follow the standardized convention
- * `INVALID_X` / `X_FAILED` / `X_NOT_FOUND` / `X_LIMIT_REACHED`. For a
- * transition period the API still returns the old names alongside the new
- * ones — the old keys below are kept as deprecated aliases that resolve to
- * the new canonical values.
+ * Names follow the standardized convention
+ * `INVALID_X` / `X_FAILED` / `X_NOT_FOUND` / `X_LIMIT_REACHED`.
  */
 export const APIErrorCode = {
 	// Auth / plan gates
@@ -37,8 +34,12 @@ export const APIErrorCode = {
 	// Rate limiting
 	/** Short temporary 429 — retry after a few seconds. */
 	KEEP_CALM: "KEEP_CALM",
-	RATE_LIMIT: "RATE_LIMIT",
-	RATE_LIMIT_EXCEEDED: "RATE_LIMIT_EXCEEDED",
+	/**
+	 * 429 on the account/API key (or an IP blocked for invalid keys, which can
+	 * last ~30 minutes), on the app network endpoints and on
+	 * `GET /users/snapshots`.
+	 */
+	RATE_LIMITED: "RATE_LIMITED",
 	/** Plan's daily snapshot quota exhausted (429) — distinct from KEEP_CALM. */
 	DAILY_SNAPSHOTS_LIMIT_REACHED: "DAILY_SNAPSHOTS_LIMIT_REACHED",
 
@@ -100,6 +101,10 @@ export const APIErrorCode = {
 	GIT_ALREADY_CONFIGURED: "GIT_ALREADY_CONFIGURED",
 	GIT_NOT_CONFIGURED: "GIT_NOT_CONFIGURED",
 	REPOSITORY_BRANCH_ALREADY_CONFIGURED: "REPOSITORY_BRANCH_ALREADY_CONFIGURED",
+	/** GitHub App link (403): the connected GitHub account has no write access to the repository. */
+	REPOSITORY_PERMISSION_REQUIRED: "REPOSITORY_PERMISSION_REQUIRED",
+	/** GitHub App link (502): GitHub did not confirm the branch. Safe to retry. */
+	FAILED_TO_FETCH: "FAILED_TO_FETCH",
 	INVALID_BRANCH_LENGTH: "INVALID_BRANCH_LENGTH",
 	INVALID_AUTORESTART: "INVALID_AUTORESTART",
 
@@ -131,6 +136,12 @@ export const APIErrorCode = {
 	// Databases
 	DATABASE_NOT_FOUND: "DATABASE_NOT_FOUND",
 	DATABASE_NOT_RUNNING: "DATABASE_NOT_RUNNING",
+	/** Database start (409): the container is already running. */
+	CONTAINER_ALREADY_STARTED: "CONTAINER_ALREADY_STARTED",
+	/** Database stop (409): the container is already stopped. */
+	CONTAINER_ALREADY_STOPPED: "CONTAINER_ALREADY_STOPPED",
+	/** Database start/stop (409): the container is suspended. */
+	CONTAINER_TEMPORARILY_SUSPENDED: "CONTAINER_TEMPORARILY_SUSPENDED",
 	DATABASE_CREATION_FAILED: "DATABASE_CREATION_FAILED",
 	INVALID_DATABASE_TYPE: "INVALID_DATABASE_TYPE",
 	INVALID_DATABASE_VERSION: "INVALID_DATABASE_VERSION",
@@ -152,67 +163,6 @@ export const APIErrorCode = {
 	INVALID_GROUP: "INVALID_GROUP",
 	VALIDATION_FAILED: "VALIDATION_FAILED",
 	VALIDATION_TIMEOUT: "VALIDATION_TIMEOUT",
-
-	// ------------------------------------------------------------------
-	// Deprecated aliases — pre-standardization names. They resolve to the new
-	// canonical values so comparisons keep working against new responses.
-	// ------------------------------------------------------------------
-	/** @deprecated Use {@link APIErrorCode.INVALID_ID}. */
-	ID_INVALID: "INVALID_ID",
-	/** @deprecated Use {@link APIErrorCode.INVALID_CODE}. */
-	CODE_INVALID: "INVALID_CODE",
-	/** @deprecated Use {@link APIErrorCode.INVALID_NAME}. */
-	NAME_INVALID: "INVALID_NAME",
-	/** @deprecated Use {@link APIErrorCode.INVALID_MEMORY}. */
-	MEMORY_INVALID: "INVALID_MEMORY",
-	/** @deprecated Use {@link APIErrorCode.INVALID_DATABASE_TYPE}. */
-	DATABASE_TYPE_INVALID: "INVALID_DATABASE_TYPE",
-	/** @deprecated Use {@link APIErrorCode.INVALID_DATABASE_VERSION}. */
-	DATABASE_VERSION_INVALID: "INVALID_DATABASE_VERSION",
-	/** @deprecated Use {@link APIErrorCode.WORKSPACE_NOT_FOUND}. */
-	UNKNOWN_WORKSPACE: "WORKSPACE_NOT_FOUND",
-	/** @deprecated Use {@link APIErrorCode.MEMBER_NOT_FOUND}. */
-	UNKNOWN_MEMBER: "MEMBER_NOT_FOUND",
-	/** @deprecated Use {@link APIErrorCode.APPLICATIONS_LIMIT_REACHED}. */
-	MAX_APPLICATIONS_REACHED: "APPLICATIONS_LIMIT_REACHED",
-	/** @deprecated Use {@link APIErrorCode.MEMBERS_LIMIT_REACHED}. */
-	MAX_MEMBERS_REACHED: "MEMBERS_LIMIT_REACHED",
-	/** @deprecated Use {@link APIErrorCode.WORKSPACE_CREATION_FAILED}. */
-	FAILED_WORKSPACE_CREATION: "WORKSPACE_CREATION_FAILED",
-	/** @deprecated Use {@link APIErrorCode.DATABASE_CREATION_FAILED}. */
-	FAILED_DATABASE_CREATION: "DATABASE_CREATION_FAILED",
-	/** @deprecated Use {@link APIErrorCode.CLUSTER_SELECTION_FAILED}. */
-	FAILED_CLUSTER_SELECTION: "CLUSTER_SELECTION_FAILED",
-	/** @deprecated Use {@link APIErrorCode.INSUFFICIENT_MEMORY}. */
-	FEW_MEMORY: "INSUFFICIENT_MEMORY",
-	/** @deprecated Use {@link APIErrorCode.READ_FAILED}. */
-	FAILED_READ: "READ_FAILED",
-	/** @deprecated Use {@link APIErrorCode.DELETE_FAILED}. */
-	FAILED_DELETE: "DELETE_FAILED",
-	/** @deprecated Use {@link APIErrorCode.DELETE_FAILED}. */
-	DELETE_ERROR: "DELETE_FAILED",
-	/** @deprecated Use {@link APIErrorCode.RENAME_FAILED}. */
-	FAILED_RENAME: "RENAME_FAILED",
-	/** @deprecated Use {@link APIErrorCode.SAVE_FAILED}. */
-	FAILED_TO_SAVE: "SAVE_FAILED",
-	/** @deprecated Use {@link APIErrorCode.RESET_FAILED}. */
-	FAILED_RESET: "RESET_FAILED",
-	/** @deprecated Use {@link APIErrorCode.UPLOAD_FAILED}. */
-	FAILED_UPLOAD: "UPLOAD_FAILED",
-	/** @deprecated Use {@link APIErrorCode.STORAGE_UPLOAD_FAILED}. */
-	FAILED_UPLOAD_DATA: "STORAGE_UPLOAD_FAILED",
-	/** @deprecated Use {@link APIErrorCode.COMMIT_FAILED}. */
-	COMMIT_ERROR: "COMMIT_FAILED",
-	/** @deprecated Use {@link APIErrorCode.INTERNAL_SERVER_ERROR}. */
-	INTERNAL_ERROR: "INTERNAL_SERVER_ERROR",
-	/** @deprecated Use {@link APIErrorCode.INVALID_DOMAIN}. */
-	REGEX_VALIDATION: "INVALID_DOMAIN",
-	/** @deprecated Use {@link APIErrorCode.CANNOT_SET_SUBDOMAIN}. */
-	CAN_NOT_SET_SUBDOMAIN: "CANNOT_SET_SUBDOMAIN",
-	/** @deprecated Use {@link APIErrorCode.METRICS_NOT_SUPPORTED}. */
-	INVALID_APP: "METRICS_NOT_SUPPORTED",
-	/** @deprecated Use {@link APIErrorCode.UPGRADE_REQUIRED}. */
-	SUBSCRIPTION_REQUIRED: "UPGRADE_REQUIRED",
 } as const;
 
 /**

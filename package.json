@@ -54,12 +54,18 @@
 		"types"
 	],
 	"author": {
-		"name": "João Tonaco"
+		"name": "Square Cloud",
+		"url": "https://squarecloud.app"
 	},
 	"contributors": [
 		{
-			"name": "João Otávio",
-			"email": "joao@squarecloud.app"
+			"name": "João Gabriel Tonaco",
+			"url": "https://github.com/joaotonaco"
+		},
+		{
+			"name": "João Otávio Stivi",
+			"email": "joao@squarecloud.app",
+			"url": "https://github.com/JoaoOtavioS"
 		}
 	],
 	"license": "MIT",

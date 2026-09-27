@@ -61,7 +61,7 @@ For endpoint options in the `REST` category, they follow a specific structure: `
 - If a type name ends with `Result`, it represents the expected result when calling its corresponding route.
 - If a type name ends with `ResultPayload`, it represents the raw result you can expect when calling its corresponding route.
 
-Machine-readable error codes returned by the API are available through the `APIErrorCode` constant, which also keeps the pre-standardization names as deprecated aliases.
+Machine-readable error codes returned by the API are available through the `APIErrorCode` constant.
 
 ## Related Projects
 

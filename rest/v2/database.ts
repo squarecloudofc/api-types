@@ -11,7 +11,7 @@ import type {
 export interface RESTPostAPIDatabaseJSONBody {
 	/** Display name, 1-32 chars. */
 	name: string;
-	/** Allocated memory in MB. */
+	/** Allocated memory in MB, as an integer (otherwise `400 INSUFFICIENT_MEMORY`). */
 	memory: number;
 	type: DatabaseType;
 	/**
