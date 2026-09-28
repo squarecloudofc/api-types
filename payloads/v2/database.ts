@@ -64,8 +64,11 @@ export interface APIDatabaseCreated {
 	type: DatabaseType;
 	/** One-time database password. Shown only at creation. */
 	password: string;
-	/** Base64-encoded PEM TLS certificate. Returned only when applicable. */
-	certificate?: string;
+	/**
+	 * Base64-encoded PEM (private key followed by the certificate) for TLS
+	 * connections. `null` when it could not be produced at creation.
+	 */
+	certificate?: string | null;
 	/** Ready-to-use connection string with the password embedded. */
 	connection_url: string;
 	cluster: string;
@@ -102,7 +105,7 @@ export type APIDatabaseStatusListPayload = APIPayload<
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/credentials/certificate
  */
 export interface APIDatabaseCertificate {
-	/** Base64-encoded PEM certificate. */
+	/** Base64-encoded PEM: private key followed by the certificate. */
 	certificate: string;
 }
 

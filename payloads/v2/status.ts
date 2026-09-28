@@ -22,7 +22,7 @@ export const ApplicationStatus = {
 	Restarting: "restarting",
 	Deleting: "deleting",
 	Running: "running",
-};
+} as const;
 
 /**
  * APIApplicationStatus#network — network counters. Strings by default
@@ -37,15 +37,18 @@ export interface APIApplicationStatusNetwork<Raw extends boolean = false> {
 
 /**
  * Runtime stats for a single application (or database). By default the usage
- * fields come formatted as strings (`"0.50%"`, `"120/512MB"`); pass
+ * fields come formatted as strings (`"0.5%"`, `"120.4MB"`); pass
  * `?rawData=true` (see the status query type) to receive raw numbers instead —
  * parameterize with `APIApplicationStatus<true>`.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatus<Raw extends boolean = false> {
-	/** CPU usage. Formatted (`"0.50%"`) by default, raw number with `rawData`. */
+	/** CPU usage. Formatted (`"0.5%"`) by default, raw number with `rawData`. */
 	cpu: Raw extends true ? number : string;
-	/** RAM usage. Formatted (`"120/512MB"`) by default, raw number with `rawData`. */
+	/**
+	 * RAM in use (the allocated memory is not included). Formatted in MB
+	 * (`"120.4MB"`) by default, a number of MB with `rawData`.
+	 */
 	ram: Raw extends true ? number : string;
 	status: ApplicationStatus;
 	/** Convenience flag equivalent to `status === "running"`. */

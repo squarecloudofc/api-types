@@ -15,7 +15,8 @@ export interface APIMetricPoint {
 
 /**
  * Time series returned by `/apps/{appId}/metrics` and
- * `/databases/{databaseId}/metrics`.
+ * `/databases/{databaseId}/metrics`. Points come **newest first**; the array
+ * is empty when the resource has no recent data.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/metrics
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/metrics
  */

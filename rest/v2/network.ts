@@ -32,7 +32,9 @@ export interface RESTAPINetworkRangeQuery {
 /**
  * Query for `/v2/apps/{appId}/network/analytics`. Both `start` and `end` are
  * required by the backend. All other params are optional drill-down filters
- * applied to every breakdown at once.
+ * applied to every breakdown at once (combined with AND): pass the exact
+ * `type` value returned by the matching breakdown. An invalid filter value is
+ * `400 INVALID_FILTER`.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/analytics
  */
 export interface RESTGetAPINetworkAnalyticsQuery
@@ -41,9 +43,9 @@ export interface RESTGetAPINetworkAnalyticsQuery
 	country?: string;
 	/** Filter to one client IP (exact IPv4/IPv6 match). */
 	ip?: string;
-	/** Filter to request paths starting with this prefix (e.g. `/api` covers `/api/*`). */
+	/** Filter to request paths starting with this prefix (e.g. `/api` covers `/api/*`). Absolute, max 256 chars. */
 	path?: string;
-	/** Filter to one edge response status code, as returned in the `status_codes` breakdown. */
+	/** Filter to one edge response status code (3 digits), as returned in the `status_codes` breakdown. */
 	status?: string;
 	/** Filter to one client OS, as returned in the `os` breakdown. */
 	os?: string;
@@ -54,8 +56,8 @@ export interface RESTGetAPINetworkAnalyticsQuery
 	/** Filter to one referer host, as returned in the `referers` breakdown (`Direct` = no referer). */
 	referer?: string;
 	/**
-	 * Filter to one client network, as returned in the `providers` breakdown —
-	 * e.g. `GOOGLE (15169)`, a bare ASN number, or `SQUARE-CLOUD-PLATFORM`.
+	 * Filter to one client network: the exact `type` of a `providers` bucket,
+	 * `"NAME (ASN)"` (e.g. `GOOGLE (15169)`) or `SQUARE-CLOUD-PLATFORM`.
 	 */
 	provider?: string;
 	/** Filter to one response content type, as returned in the `content_types` breakdown (`Unknown` = unclassified). */

@@ -84,7 +84,12 @@ export interface APIUserPlanMemory {
  */
 export interface APIUserPlan {
 	name: UserPlanName;
+	/** Live memory accounting across all applications and databases, in MB. */
 	memory: APIUserPlanMemory;
+	/**
+	 * Unix timestamp (ms) at which the current plan expires. `null` for plans
+	 * that never expire.
+	 */
 	duration: number | null;
 }
 
@@ -94,6 +99,7 @@ export interface APIUserPlan {
  */
 export interface APIUser {
 	id: UserId;
+	/** Display name (1-24 chars). */
 	name: string;
 	email: string;
 	/**
@@ -117,8 +123,10 @@ export interface APIUserApplication {
 	ram: number;
 	lang: ApplicationLanguage;
 	cluster: string;
-	domain: string | null;
-	custom: string | null;
+	/** Omitted (or `null`) for apps without a default hostname. */
+	domain?: string | null;
+	/** Omitted (or `null`) when no custom domain is configured. */
+	custom?: string | null;
 	created_at: ISODateString;
 }
 

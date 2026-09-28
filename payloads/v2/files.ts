@@ -15,24 +15,32 @@ export const FileType = {
  */
 export interface APIListedFile {
 	type: FileType;
+	/** File or directory name (no path component). */
 	name: string;
 	/** Size in bytes. `0` for directories. */
 	size: number;
-	/** Last-modified time as a Unix timestamp in milliseconds. */
-	lastModified: number;
+	/**
+	 * Last-modified time as a Unix timestamp in milliseconds (may carry a
+	 * fractional part). `null` when the entry could not be read.
+	 */
+	lastModified: number | null;
 }
 
 export type APIFileListPayload = APIPayload<APIListedFile[]>;
 
 /**
- * File content returned by `GET /v2/apps/{appId}/files/content` as a Node-style
- * Buffer object — `data` is the raw byte array. Files too large for the file
- * manager are rejected with `413 FILE_TOO_LARGE`.
+ * File content returned by `GET /v2/apps/{appId}/files/content?encoding=base64`.
+ * Files over 10 MB are rejected with `413 FILE_TOO_LARGE`.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/read
  */
-export interface APIReadFile {
-	type: "Buffer";
-	data: number[];
+export interface APIReadFileBase64 {
+	encoding: "base64";
+	/** The file's bytes, base64-encoded. */
+	data: string;
 }
 
-export type APIFileReadPayload = APIPayload<APIReadFile>;
+/**
+ * Payload of `GET /v2/apps/{appId}/files/content?encoding=base64`.
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/filemanager/read
+ */
+export type APIFileReadPayload = APIPayload<APIReadFileBase64>;

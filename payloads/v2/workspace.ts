@@ -39,8 +39,10 @@ export type WorkspaceInviteGroup = Exclude<WorkspaceMemberGroup, "owner">;
  */
 export interface APIWorkspaceMember {
 	id: UserId;
-	name: string;
+	/** Display name. `null` when it cannot be resolved (e.g. a deleted account). */
+	name: string | null;
 	group: WorkspaceMemberGroup;
+	/** When the member joined. For the owner, the workspace creation time. */
 	joinedAt: ISODateString;
 }
 
@@ -56,15 +58,18 @@ export interface APIWorkspaceApp {
 	/** Allocated memory in MB. */
 	ram: number;
 	lang: ApplicationLanguage;
-	domain: string | null;
-	custom: string | null;
+	domain?: string | null;
+	custom?: string | null;
 }
 
 /**
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/workspaces/info
  */
 export interface APIWorkspace {
-	/** Workspace identifier — UUID v4 without hyphens (32 hex chars). */
+	/**
+	 * Workspace identifier — UUID v4 without hyphens (32 hex chars), or a
+	 * 40-hex id on older workspaces.
+	 */
 	id: WorkspaceId;
 	name: string;
 	owner: UserId;

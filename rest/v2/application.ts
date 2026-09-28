@@ -76,12 +76,15 @@ export interface RESTPostAPIApplicationUploadFormDataBody {
  */
 export interface RESTPostAPIApplicationUploadLanguage {
 	name: ApplicationLanguage;
-	/** Detected runtime version (e.g. `22`, `3.12`). */
+	/**
+	 * `VERSION` from `squarecloud.config`, lowercased: `recommended` or a
+	 * pinned version (e.g. `22`, `3.12`).
+	 */
 	version: string;
 }
 
 /**
- * Response of `POST /v2/apps`. `description` and `subdomain` are present only
+ * Response of `POST /v2/apps`. `description` and `domain` are present only
  * when set in `squarecloud.config`. Client-side upload aborts surface as the
  * `UPLOAD_ABORTED` error code.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/upload
@@ -91,8 +94,10 @@ export interface RESTPostAPIApplicationUploadResult {
 	name: string;
 	/** Optional description (from `DESCRIPTION` in `squarecloud.config`). Omitted when unset. */
 	description?: string;
-	/** Optional `<subdomain>.squareweb.app` host (from `SUBDOMAIN` in `squarecloud.config`). Omitted for non-web apps. */
-	subdomain?: string;
+	/** Full `<subdomain>.squareweb.app` host (from `SUBDOMAIN` in `squarecloud.config`). Omitted for non-web apps. */
+	domain?: string;
+	/** Cluster the application was deployed to (e.g. `example-cluster`). */
+	cluster?: string;
 	/** Allocated memory in MB. */
 	ram: number;
 	/** Allocated CPU shares. */

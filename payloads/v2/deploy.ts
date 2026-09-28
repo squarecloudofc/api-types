@@ -34,6 +34,8 @@ interface APIDeploymentBase {
 	/** Commit SHA-1 (40 hex chars). Shared by every event of a single deploy. */
 	id: string;
 	date: ISODateString;
+	/** Always `git`: only Git deploys (webhook and GitHub App pushes) are recorded. */
+	source: "git";
 }
 
 /**
@@ -41,6 +43,7 @@ interface APIDeploymentBase {
  * fields are present:
  * - `clone` carries `branch`
  * - `commit` carries `files`
+ * - `error` may carry `code` (why it failed, e.g. `CLONE_FAILED`) and `message`
  * - other states carry only the base fields
  *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/deploy/list
@@ -51,12 +54,19 @@ export type APIDeployment =
 	| (APIDeploymentBase & { state: "commit"; files: APIDeploymentCommitFiles })
 	| (APIDeploymentBase & { state: "restarting" })
 	| (APIDeploymentBase & { state: "success" })
-	| (APIDeploymentBase & { state: "error" });
+	| (APIDeploymentBase & {
+			state: "error";
+			/** Why the deploy failed (e.g. `AUTHENTICATION_REQUIRED`, `INVALID_BRANCH`, `CLONE_FAILED`). */
+			code?: string;
+			/** Failure details, when available. */
+			message?: string;
+	  });
 
 /**
  * Payload of `GET /v2/apps/{appId}/deployments`. `response` is a **nested**
  * array — outer element is the list of recent deploys, inner element is the
- * timeline of events for that deploy (sharing the same `id`).
+ * timeline of events for that deploy (sharing the same `id`), in
+ * chronological order.
  */
 export type APIDeployPayload = APIPayload<APIDeployment[][]>;
 
@@ -93,6 +103,7 @@ export type APIDeploymentCurrentPayload = APIPayload<APIDeploymentCurrent>;
  */
 export interface APIGithubAppRepository {
 	id: number;
+	/** Canonical `owner/name` as GitHub reports it, whatever case or form was sent. */
 	full_name: string;
 	branch: string;
 }

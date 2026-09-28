@@ -43,10 +43,10 @@ export interface APIApplication {
 	cluster: string;
 	ram: number;
 	language: ApplicationLanguage;
-	/** Default `<subdomain>.squareweb.app` hostname. `null` for non-web apps. */
-	domain: string | null;
-	/** Custom domain bound to the app, when configured. */
-	custom: string | null;
+	/** Default `<subdomain>.squareweb.app` hostname. Omitted (or `null`) for apps without one. */
+	domain?: string | null;
+	/** Custom domain bound to the app. Omitted (or `null`) when not configured. */
+	custom?: string | null;
 	created_at: ISODateString;
 }
 
@@ -54,7 +54,7 @@ export type APIApplicationPayload = APIPayload<APIApplication>;
 
 /**
  * Narrowing of {@link APIApplication} for web applications — `domain` is
- * always present.
+ * always a string.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/info
  */
 export interface APIWebsiteApplication extends APIApplication {

@@ -58,7 +58,8 @@ export interface APINetworkAnalyticsTotalBucket {
  * the application's creation date).
  *
  * - `referers`: empty referer strings are normalized to `type: "Direct"`.
- * - `providers`: ASN breakdown — Square Cloud's own ASN is normalized to
+ * - `providers`: ASN breakdown — `type` is `"NAME (ASN)"` (e.g.
+ *   `"GOOGLE (15169)"`); Square Cloud's own ASN is normalized to
  *   `type: "SQUARE-CLOUD-PLATFORM"`.
  *
  * The endpoint may also return an empty object `{}` when the requested window
@@ -290,13 +291,14 @@ export type APINetworkLogs = APINetworkLog[];
 export type APINetworkLogsPayload = APIPayload<APINetworkLogs>;
 
 /**
- * Latency percentile triple used by the performance endpoint.
+ * Latency percentile triple used by the performance endpoint, in
+ * milliseconds. Each value is `null` when there are no samples.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/performance
  */
 export interface APINetworkLatency {
-	p50: number;
-	p95: number;
-	p99: number;
+	p50: number | null;
+	p95: number | null;
+	p99: number | null;
 }
 
 /**
@@ -325,8 +327,10 @@ export interface APINetworkPerformanceTimeseries {
  */
 export interface APINetworkPerformanceCountry {
 	type: string;
-	p50: number;
-	p95: number;
+	/** Milliseconds; `null` without samples. */
+	p50: number | null;
+	/** Milliseconds; `null` without samples. */
+	p95: number | null;
 	requests: number;
 }
 
@@ -337,10 +341,12 @@ export interface APINetworkPerformanceCountry {
  */
 export interface APINetworkPerformanceColo {
 	type: string;
-	city: string;
-	country: string;
-	p50: number;
-	p95: number;
+	city: string | null;
+	country: string | null;
+	/** Milliseconds; `null` without samples. */
+	p50: number | null;
+	/** Milliseconds; `null` without samples. */
+	p95: number | null;
 	requests: number;
 }
 
@@ -349,8 +355,10 @@ export interface APINetworkPerformanceColo {
  */
 export interface APINetworkPerformanceSlowestPath {
 	path: string;
-	p95: number;
-	p99: number;
+	/** Milliseconds; `null` without samples. */
+	p95: number | null;
+	/** Milliseconds; `null` without samples. */
+	p99: number | null;
 	requests: number;
 }
 

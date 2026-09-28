@@ -11,9 +11,13 @@ export const SnapshotScope = {
 } as const;
 
 /**
+ * Response of snapshot creation. A large resource may instead answer `202`
+ * with `code: "SNAPSHOT_PROCESSING"`: the snapshot appears in the listing on
+ * its own, so poll the listing rather than posting again.
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/snapshots
  */
 export interface RESTPostAPISnapshotResult {
+	/** Signed download URL, valid for 30 days. */
 	url: string;
 	key: string;
 }
@@ -28,11 +32,11 @@ export type RESTPostAPISnapshotResultPayload =
  */
 export interface RESTPostAPISnapshotRestoreJSONBody {
 	/**
-	 * Snapshot identifier (UUID v4). For database restores, the suffixed form
-	 * `<uuid>_<type>` returned by the listing is also accepted — both work.
+	 * Snapshot `name` from the listing: the resource id, suffixed with the
+	 * runtime and/or origin (e.g. `<id>_<type>` for databases).
 	 */
 	snapshotId: string;
-	/** Snapshot version identifier (24-96 chars, base64url-ish). */
+	/** `version_id` from the listing (24-96 chars of `[A-Za-z0-9+/=_-]`). */
 	versionId: string;
 }
 
