@@ -1,5 +1,46 @@
 # @squarecloud/api-types
 
+## 5.0.0
+
+### Major Changes
+
+- Sync with the current Square Cloud API contract.
+
+  **Breaking**
+
+  - File content travels base64-encoded, which is lighter on the wire than the old JSON byte array. `APIFileReadPayload` is now `APIPayload<APIReadFileBase64>` (`{ encoding: "base64", data: string }`), and `RESTGetAPIFileContentQuery.encoding` is the required `"base64"`. Removed `APIReadFile` (the byte-array shape).
+  - `RESTPutAPIFileUpsertJSONBody.content` is a `string`: the file base64-encoded with `encoding: "base64"`, or plain UTF-8 text. It no longer accepts `APIReadFile`.
+  - `RESTPutAPIFileUpsertResultPayload` is status-only. Removed `RESTPutAPIFileUpsertResult` (`written`), which the API does not return.
+  - `RESTDeleteAPIFileDeleteQuery` is replaced by `RESTDeleteAPIFileDeleteJSONBody`: the path goes in the JSON body.
+  - `RESTPostAPIApplicationUploadResult`: `subdomain` is replaced by `domain`, the full host.
+  - `APIDeployment`: every event has the required `source: "git"`.
+  - `APISnapshot`: new required `version_id` and `url`.
+  - `APIWorkspaceMember.name` is `string | null`.
+  - `APIDatabaseCreated.certificate` is `string | null` (and still optional).
+  - `APIListedFile.lastModified` is `number | null`.
+  - `APIApplication`, `APIUserApplication` and `APIWorkspaceApp`: `domain` and `custom` are optional, because the key is omitted when unset.
+  - Network performance: latency percentiles (`APINetworkLatency`, countries, colos, slowest paths) are `number | null`, and `APINetworkPerformanceColo.city`/`country` are `string | null`.
+  - `APIServiceStatus.status` is `"online" | "degraded" | "unknown"` instead of `string`.
+
+  **Added**
+
+  - `APIErrorCode` now matches the API's public error codes, with 29 new codes: `MISSING_SCOPE` (403), `RESOURCE_NOT_ALLOWED` (403), `SCOPE_NOT_GRANTABLE`, `CONFLICTING_RESOURCES`, `DATABASE_UNAVAILABLE` (503, retryable), `CLUSTER_TIMEOUT`, `CLUSTER_UNAVAILABLE`, `REQUEST_ABORTED`, `ROUTE_NOT_FOUND`, `INVALID_INPUT`, `INVALID_PARAMETERS`, `LOGS_UNAVAILABLE`, `CONTAINER_NOT_FOUND`, `CONTAINER_INSUFFICIENT_DISK_SPACE`, `CONTAINER_NETWORK_CONFLICT`, `UPLOAD_BUSY`, `INVALID_ENCODING` (400), `GITHUB_NOT_CONNECTED` (403), `REPOSITORY_NOT_AVAILABLE`, `REPOSITORY_NOT_FOUND`, `BRANCH_NOT_FOUND`, `PURGE_CACHE_FAILED`, `INVALID_FILTER` (400), `ANALYTICS_BUSY`, `REALTIME_MAX_CONNECTIONS_APP`, `AI_DAILY_LIMIT_REACHED`, `AI_NO_PLAN_LIMIT_REACHED`, `AI_MAX_CONCURRENT_STREAMS` and `AI_UNAVAILABLE`.
+  - `encoding?: "base64"` on `RESTPutAPIFileUpsertJSONBody`.
+  - `APIDeployment` error events: optional `code` and `message`.
+  - `APISnapshot`: optional `runtime` and `origin` (`SnapshotOrigin`).
+  - `RESTPostAPIApplicationUploadResult.cluster`.
+  - Realtime: `APIRealtimeEventName`, `APIRealtimeStatus` (the full `status` frame, where `cpuLimit` is the number of CPU cores) and `APIRealtimeStatusUpdate` (the lean frames to merge onto it).
+  - `APIServiceStatus`: `checked_at`, `stale`, `services` and `dependencies` (`APIServiceComponentStatus`), plus the `ServiceStatus` type.
+  - `APIPayload.message`.
+
+  **Changed**
+
+  - `APIPayload.code` is typed `APIErrorCode | (string & {})` for autocompletion. Unknown codes still type-check.
+  - The `ApplicationStatus` constant is `as const`, so its values are literal types.
+  - `APIErrorCode` groups the container codes under lifecycle actions and documents the non-obvious codes. An expired API key answers `401 ACCESS_DENIED`, and `SNAPSHOT_RESTORE_FAILED` (404) is the only restore failure code.
+  - `RESTPostAPIDatabaseJSONBody.memory`: a non-integer is `400 INVALID_MEMORY`, not `INSUFFICIENT_MEMORY`.
+  - JSDoc updates: status `ram` is the RAM in use (`"120.4MB"`), and `cpu`/`ram` are numbers with `rawData=true`. Metrics points come newest first. Workspace ids are 32 hex (UUID v4 without hyphens) or 40 hex on older workspaces. `providers[].type` is `"NAME (ASN)"`, the `provider` filter takes that exact value, and an invalid filter is `400 INVALID_FILTER`. File manager limits and errors are documented: 10 MB (`413 FILE_TOO_LARGE`), paths of at most 256 chars, `404 FILE_NOT_FOUND` for a missing directory, `403 BLOCKED_PATH`, `400 INVALID_CONTENT` for invalid base64, and empty content creating an empty file. Snapshot restore ids come from the listing's `name` and `version_id`.
+
 ## 4.0.0
 
 ### Major Changes
