@@ -1,5 +1,41 @@
 # @squarecloud/api-types
 
+## 5.1.0
+
+### Minor Changes
+
+- Brings the types in line with the current Square Cloud API and rewrites their documentation.
+
+  **Added**
+
+  - New `APIErrorCode` values: `WRONG_HOST` (421), `ENV_BUSY` (409), `WRITE_FAILED` (400), `GIT_BRANCH_DELETED`, `GIT_REF_NOT_SUPPORTED`, `SNAPSHOT_IN_PROGRESS` (409), `SNAPSHOTS_UNAVAILABLE` (503), `SNAPSHOT_RESTORE_PROCESSING` (202), `SNAPSHOT_CORRUPT` (404), `RESTORE_INTERRUPTED` (404) and `AI_WEEKLY_LIMIT_REACHED` (429).
+  - `RESTGetAPISnapshotRestoreResult`, `RESTGetAPISnapshotRestoreResultPayload` and `SnapshotRestoreState` describe the restore state of an application or database, read with `GET /v2/apps/{appId}/snapshots/restore` and `GET /v2/databases/{databaseId}/snapshots/restore`.
+  - `RESTPostAPISnapshotRestoreResultPayload` describes the answer of a snapshot restore. It includes `RESTPostAPISnapshotRestoreProcessingResultPayload`, the 202 `{ status: "error", code: "SNAPSHOT_RESTORE_PROCESSING" }` that a restore sends when it takes longer than about 90 seconds and keeps running. Follow such a restore with the restore state instead of posting it again.
+  - `RESTGetAPIMetricsQuery` accepts `range?: "24h" | "7d"`. `APIMetricPoint` gains `disk`, `storage`, and `cpu_max` and `ram_max`, which only `7d` points have.
+  - `APIServiceStatus` gains `incidents` (`APIServiceIncident`) and `components` (`APIServiceComponent`).
+  - `APIApplicationStatus` gains `restoring`, and so does `APIDatabaseStatus`.
+  - `APINetworkDNSRecord` gains `errors` and `fallback`.
+  - `APINetworkAnalyticsTimeBucket` gains `bytes_in`.
+
+  **Changed**
+
+  - `ServiceStatus` accepts `"maintenance"`. Code that switches over it exhaustively needs a new branch.
+  - `RESTORE_IN_PROGRESS` now comes with 409 instead of 403 on delete, start, stop, restart, snapshot creation and snapshot restore. Code that matched it on 403 needs to match on 409.
+  - Snapshot listings now fail with 503 `SNAPSHOTS_UNAVAILABLE` when snapshot storage cannot answer, instead of returning an empty list.
+  - `url` and `key` of `RESTPostAPISnapshotResult` are optional, because an API key without `snapshots:read` gets an empty `response`. Code that reads them needs to handle `undefined`.
+  - `METRICS_NOT_SUPPORTED` is deprecated. The API no longer sends it, because applications below 512 MB have metrics too.
+  - Every type, field and error code has new documentation. Each error code now says when the API sends it and what to do about it.
+  - The README recommends `@squarecloud/api` 6, which ships its own types, and this package for calling the REST API directly.
+
+  **Fixed**
+
+  - Snapshot download URLs are documented as valid for 1 hour. The documentation said 30 days.
+  - `SNAPSHOT_RESTORE_FAILED` is no longer documented as the only restore failure code.
+  - `RESTPostAPIGithubAppJSONBody` no longer says that linking a repository requires a session token. An API key with the `apps:deploy` scope works too.
+  - `RESTPutAPIFileUpsertJSONBody` documents 413 `PAYLOAD_TOO_LARGE` for a body that is too large, instead of `FILE_TOO_LARGE`.
+  - `APIUserPlan.duration` is documented as `null` when the account has no active plan, not for plans that never expire.
+  - `APINetworkErrors` is documented as having empty totals and arrays when the window has no errors or starts before the application was created.
+
 ## 5.0.0
 
 ### Major Changes
