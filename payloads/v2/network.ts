@@ -1,69 +1,69 @@
 import type { APIPayload, ApplicationId, ISODateString } from "../../common/v2";
 
 /**
- * Time bucket of the `visits` time series (15-minute window). Has no `type`
- * field because the dimension is time itself.
+ * One 15-minute window of the `visits` time series. It has no `type` field,
+ * because time itself is the dimension.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/analytics
  */
 export interface APINetworkAnalyticsTimeBucket {
-	/** Start of the 15-minute window (ISO 8601). */
+	/** When the 15-minute window starts. */
 	date: ISODateString;
-	/** Unique visitors. */
+	/** The number of unique visitors. */
 	visits: number;
-	/** Total requests. */
+	/** The number of requests. */
 	requests: number;
-	/** Response bytes served. */
+	/** The response bytes served. */
 	bytes: number;
+	/** The request bytes received from visitors, such as uploads and request bodies. */
+	bytes_in?: number;
 }
 
 /**
- * Per-dimension bucket — `type` identifies the dimension value (e.g. country
- * name, HTTP method, browser, ASN tag).
+ * One 15-minute window of a breakdown, for one value of its dimension, such
+ * as a country, an HTTP method, a browser or a network.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/analytics
  */
 export interface APINetworkAnalyticsBucket {
-	/** Dimension value for this bucket. */
+	/** The value of the dimension, such as `GET` in the `methods` breakdown. */
 	type: string;
-	/** Start of the 15-minute window (ISO 8601). */
+	/** When the 15-minute window starts. */
 	date: ISODateString;
-	/** Unique visitors in this bucket. */
+	/** The number of unique visitors. */
 	visits: number;
-	/** Total requests in this bucket. */
+	/** The number of requests. */
 	requests: number;
-	/** Response bytes served in this bucket. */
+	/** The response bytes served. */
 	bytes: number;
 }
 
 /**
- * Whole-window bucket (no time dimension) used by the `ips`, `status_codes`,
- * `bots` and `content_types` breakdowns — totals over the requested range
- * rather than 15-minute series.
+ * One value of a breakdown that totals the whole requested window instead of
+ * 15-minute windows. The `ips`, `status_codes`, `bots` and `content_types`
+ * breakdowns use it.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/analytics
  */
 export interface APINetworkAnalyticsTotalBucket {
-	/** Dimension value for this bucket. */
+	/** The value of the dimension, such as `404` in the `status_codes` breakdown. */
 	type: string;
-	/** Unique visitor count. */
+	/** The number of unique visitors. */
 	visits: number;
-	/** Total request count. */
+	/** The number of requests. */
 	requests: number;
-	/** Response bytes served. */
+	/** The response bytes served. */
 	bytes: number;
 }
 
 /**
- * Aggregated edge analytics returned by `/v2/apps/{appId}/network/analytics`.
- * Each breakdown is an array of 15-minute buckets. The endpoint requires
- * `start`/`end` ISO timestamps (max 7 days retention; `start` is clamped to
- * the application's creation date).
+ * Edge analytics of the traffic to an application's default domain and
+ * custom domain, broken down by time, country, device, browser and more.
  *
- * - `referers`: empty referer strings are normalized to `type: "Direct"`.
- * - `providers`: ASN breakdown — `type` is `"NAME (ASN)"` (e.g.
- *   `"GOOGLE (15169)"`); Square Cloud's own ASN is normalized to
- *   `type: "SQUARE-CLOUD-PLATFORM"`.
- *
- * The endpoint may also return an empty object `{}` when the requested window
- * precedes the application's creation date — see {@link APINetworkAnalyticsPayload}.
+ * Analytics are kept for 7 days, and a window that starts before the
+ * application was created is moved to its creation date. The response is an
+ * empty object when the requested window starts before that date, as
+ * {@link APINetworkAnalyticsPayload} shows.
  *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/analytics
  */
@@ -76,53 +76,66 @@ export interface APINetworkAnalytics {
 	protocols: APINetworkAnalyticsBucket[];
 	methods: APINetworkAnalyticsBucket[];
 	paths: APINetworkAnalyticsBucket[];
+	/** Traffic by referer. Requests without a referer have `type: "Direct"`. */
 	referers: APINetworkAnalyticsBucket[];
+	/**
+	 * Traffic by client network. Each `type` reads `"NAME (ASN)"`, such as
+	 * `"GOOGLE (15169)"`, and Square Cloud's own network reads
+	 * `"SQUARE-CLOUD-PLATFORM"`.
+	 */
 	providers: APINetworkAnalyticsBucket[];
 	/**
-	 * Top client IPs by request count over the whole window. IPs originating
-	 * from Square Cloud's own network are masked (`X.X.XXX.XXX`).
+	 * The client IPs with the most requests over the whole window. IPs from
+	 * Square Cloud's own network are masked as `X.X.XXX.XXX`.
 	 */
 	ips: APINetworkAnalyticsTotalBucket[];
-	/** Edge response status codes over the whole window (all classes, not just errors). */
+	/** The response status codes over the whole window, of every class and not only errors. */
 	status_codes: APINetworkAnalyticsTotalBucket[];
 	/**
-	 * Verified-bot categories over the whole window. Traffic without a verified
-	 * bot category is `type: "Unverified"`.
+	 * Verified bot categories over the whole window. Traffic without a
+	 * verified bot category has `type: "Unverified"`.
 	 */
 	bots: APINetworkAnalyticsTotalBucket[];
 	/**
-	 * Response content types over the whole window. Unknown content types are
-	 * `type: "Unknown"`.
+	 * Response content types over the whole window. Unknown content types
+	 * have `type: "Unknown"`.
 	 */
 	content_types: APINetworkAnalyticsTotalBucket[];
 }
 
 /**
- * Payload of `/v2/apps/{appId}/network/analytics`. `response` may be an empty
- * object `{}` when the requested window precedes the application's creation
- * date — guard with `'visits' in payload.response` before accessing fields.
+ * The response envelope of the network analytics.
+ *
+ * `response` is an empty object when the requested window starts before the
+ * application was created, so check for `visits` with
+ * `"visits" in payload.response` before you read the fields.
  */
 export type APINetworkAnalyticsPayload = APIPayload<
 	APINetworkAnalytics | Record<string, never>
 >;
 
 /**
- * DNS record type returned by the DNS endpoint. `txt` covers both ownership
- * and SSL validation; `cname` is the traffic record.
+ * The type of a DNS record. A `txt` record proves ownership or validates the
+ * SSL certificate. A `cname` record routes traffic, or, with `fallback`,
+ * delegates the SSL validation.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
  */
 export type APINetworkDNSRecordType = "txt" | "cname";
+/** The {@link APINetworkDNSRecordType} values by name. */
 export const APINetworkDNSRecordType = {
 	TXT: "txt",
 	CNAME: "cname",
 } as const;
 
 /**
- * Known validation states for a DNS record. `status` is passed through from
- * the edge provider, so other values may appear.
+ * The known validation states of a DNS record. The edge network sets
+ * `status`, so other values can appear.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
  */
 export type APINetworkDNSStatus = "pending" | "pending_validation" | "active";
+/** The {@link APINetworkDNSStatus} values by name. */
 export const APINetworkDNSStatus = {
 	Pending: "pending",
 	PendingValidation: "pending_validation",
@@ -130,39 +143,62 @@ export const APINetworkDNSStatus = {
 } as const;
 
 /**
- * One DNS record the user must set at their DNS provider for the custom
- * domain to validate and receive traffic.
+ * One DNS record you must create at your DNS provider so the custom domain
+ * validates and receives traffic.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
  */
 export interface APINetworkDNSRecord {
 	type: APINetworkDNSRecordType;
-	/** Record name to set at the DNS provider. */
+	/** The record name to create at your DNS provider. */
 	name: string;
-	/** Record value. For `cname`, this is always `cname.squareweb.app`. */
+	/** The record value. The traffic `cname` always points at `cname.squareweb.app`. */
 	value: string;
 	/**
-	 * Upstream validation state (e.g. `pending`, `pending_validation`,
-	 * `active` — see {@link APINetworkDNSStatus}). Passed through from the
-	 * edge provider.
+	 * The validation state, such as `pending`, `pending_validation` or
+	 * `active`, as the edge network reports it (see
+	 * {@link APINetworkDNSStatus}). The `cname` and the ownership `txt` carry
+	 * the hostname's state, and an SSL `txt` named `_acme-challenge` carries
+	 * the certificate's state.
 	 */
 	status: string;
+	/**
+	 * Up to 3 validation messages from the edge network, in English. They
+	 * appear only on a record that is not `active` yet, and only when the
+	 * edge network reported why.
+	 */
+	errors?: string[];
+	/**
+	 * `true` only on the SSL validation delegation, a single `_acme-challenge`
+	 * `cname` you can create instead of every SSL `txt` record, but never
+	 * together with them. It never changes, so certificate renewals need no
+	 * DNS changes. It does not count when deciding whether the domain is
+	 * fully set up.
+	 */
+	fallback?: boolean;
 }
 
 /**
- * Response of `GET /v2/apps/{appId}/network/dns` — the DNS records the user
- * must configure, with their current validation state.
+ * The DNS records you must create for an application's custom domain, with
+ * their current validation state. The domain is fully set up when every
+ * record without `fallback` is `active`.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/dns
  */
 export type APINetworkDNS = APINetworkDNSRecord[];
 
+/** The response envelope that carries an {@link APINetworkDNS}. */
 export type APINetworkDNSPayload = APIPayload<APINetworkDNS>;
 
 /**
- * Summary block of the edge errors response.
+ * The totals of the network error breakdown.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/errors
  */
 export interface APINetworkErrorsSummary {
+	/** The number of error responses in the window. */
 	total: number;
+	/** The number of error responses by status class. */
 	by_class: {
 		"4xx": number;
 		"5xx": number;
@@ -170,55 +206,70 @@ export interface APINetworkErrorsSummary {
 }
 
 /**
+ * The number of error responses with one status code.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/errors
  */
 export interface APINetworkErrorsByStatus {
+	/** The HTTP status code. */
 	status: number;
+	/** The number of requests answered with it. */
 	requests: number;
 }
 
 /**
+ * One time window of the network error breakdown.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/errors
  */
 export interface APINetworkErrorsTimeseries {
+	/** When the window starts. */
 	date: ISODateString;
-	/** Status-code → count map for the bucket. */
+	/** The number of requests by HTTP status code, with the code as a string key. */
 	buckets: Record<string, number>;
+	/** The number of error responses in the window. */
 	total: number;
 }
 
 /**
+ * A request path that failed often, with its errors by status code.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/errors
  */
 export interface APINetworkErrorsTopPath {
+	/** The request path. */
 	path: string;
-	/** HTTP method. `null` when the edge couldn't attribute one. */
+	/** The HTTP method. It is `null` when the edge could not tell which one. */
 	method: string | null;
+	/** The number of error responses on this method and path. */
 	total: number;
-	/** Map of HTTP status code (as string) to request count. */
+	/** The number of requests by HTTP status code, with the code as a string key. */
 	by_status: Record<string, number>;
 }
 
 /**
+ * The errors of one HTTP method, by status code.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/errors
  */
 export interface APINetworkErrorsByMethod {
-	/** HTTP method. `null` when the edge couldn't attribute one. */
+	/** The HTTP method. It is `null` when the edge could not tell which one. */
 	method: string | null;
+	/** The number of error responses with this method. */
 	total: number;
-	/** Map of HTTP status code (as string) to request count. */
+	/** The number of requests by HTTP status code, with the code as a string key. */
 	by_status: Record<string, number>;
 }
 
 /**
- * Aggregated edge error breakdown returned by `/v2/apps/{appId}/network/errors`.
+ * The HTTP errors the edge served for an application's default domain and
+ * custom domain: totals, a time series, the paths that failed most and a
+ * breakdown by method.
  *
- * **Note:** `by_status` at the top level is a flat **array** of
- * `{ status, requests }`, while the nested `by_status` maps inside `top_paths`
- * and `by_method` are objects keyed by status code.
- *
- * May also be an empty object `{}` when the requested window precedes the
- * application's creation date — see {@link APINetworkErrorsPayload}.
+ * The top-level `by_status` is an array of `{ status, requests }`, while the
+ * `by_status` fields inside `top_paths` and `by_method` are objects keyed by
+ * status code. The totals and arrays are empty when the window has no
+ * matching errors or starts before the application was created.
  *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/errors
  */
@@ -231,29 +282,33 @@ export interface APINetworkErrors {
 }
 
 /**
- * Payload of `/v2/apps/{appId}/network/errors`. `response` may be an empty
- * object `{}` when the requested window precedes the application's creation
- * date — guard with `'summary' in payload.response` before accessing fields.
+ * The response envelope of the network error breakdown. The type also allows
+ * an empty object, so check for `summary` with
+ * `"summary" in payload.response` before you read the fields.
  */
 export type APINetworkErrorsPayload = APIPayload<
 	APINetworkErrors | Record<string, never>
 >;
 
 /**
- * Client info embedded in each edge log entry.
+ * The client of one request in the network logs.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/logs
  */
 export interface APINetworkLogClient {
 	ip: string | null;
 	country: string | null;
 	location: string | null;
+	/** The client network, such as `12345 - Example ISP`. */
 	asn: string;
+	/** The client's user agent. */
 	agent: string | null;
 	category: string | null;
 }
 
 /**
- * Request info embedded in each edge log entry.
+ * The request of one entry in the network logs.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/logs
  */
 export interface APINetworkLogRequest {
@@ -261,38 +316,49 @@ export interface APINetworkLogRequest {
 	method: string;
 	host: string;
 	path: string;
+	/** The query string, such as `?limit=10`. */
 	query: string | null;
+	/** The HTTP protocol, such as `HTTP/2`. */
 	protocol: string;
 	referer: string | null;
 }
 
 /**
- * Response info embedded in each edge log entry.
+ * The response of one entry in the network logs.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/logs
  */
 export interface APINetworkLogResponse {
+	/** The HTTP status code. */
 	status: number;
 	contentType: string | null;
+	/** The edge cache result, such as `MISS`. */
 	cache: string | null;
 }
 
 /**
- * A single edge log entry. Available on Pro+ plans.
+ * One request in the network logs of an application. Network logs are
+ * available on the Pro and Enterprise plans.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/logs
  */
 export interface APINetworkLog {
+	/** When the request arrived. */
 	timestamp: ISODateString;
 	client: APINetworkLogClient;
 	request: APINetworkLogRequest;
 	response: APINetworkLogResponse;
 }
 
+/** The network logs of an application, one entry per request. */
 export type APINetworkLogs = APINetworkLog[];
+/** The response envelope that carries {@link APINetworkLogs}. */
 export type APINetworkLogsPayload = APIPayload<APINetworkLogs>;
 
 /**
- * Latency percentile triple used by the performance endpoint, in
- * milliseconds. Each value is `null` when there are no samples.
+ * The 50th, 95th and 99th latency percentiles, in milliseconds. Each value
+ * is `null` when there are no samples.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/performance
  */
 export interface APINetworkLatency {
@@ -302,72 +368,89 @@ export interface APINetworkLatency {
 }
 
 /**
+ * The latency over the whole window. `edge` is the time to first byte at the
+ * edge and `origin` is how long the application took to respond.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/performance
  */
 export interface APINetworkPerformanceSummary {
 	edge: APINetworkLatency;
 	origin: APINetworkLatency;
+	/** The number of requests measured. */
 	requests: number;
 }
 
 /**
+ * The latency of one time window.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/performance
  */
 export interface APINetworkPerformanceTimeseries {
+	/** When the window starts. */
 	date: ISODateString;
+	/** The number of requests measured. */
 	requests: number;
 	edge: APINetworkLatency;
 	origin: APINetworkLatency;
 }
 
 /**
- * Per-country latency breakdown. `type` is the country name as resolved by the
- * edge provider (e.g. `"Brazil"`).
+ * The latency of the requests from one country.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/performance
  */
 export interface APINetworkPerformanceCountry {
+	/** The country. */
 	type: string;
-	/** Milliseconds; `null` without samples. */
+	/** The median latency in milliseconds, or `null` without samples. */
 	p50: number | null;
-	/** Milliseconds; `null` without samples. */
+	/** The 95th percentile latency in milliseconds, or `null` without samples. */
 	p95: number | null;
+	/** The number of requests measured. */
 	requests: number;
 }
 
 /**
- * Per-colo (datacenter) latency breakdown. `type` is the IATA-like colo code
- * (e.g. `"GRU"`).
+ * The latency of the requests served by one edge location.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/performance
  */
 export interface APINetworkPerformanceColo {
+	/** The code of the edge location. */
 	type: string;
 	city: string | null;
 	country: string | null;
-	/** Milliseconds; `null` without samples. */
+	/** The median latency in milliseconds, or `null` without samples. */
 	p50: number | null;
-	/** Milliseconds; `null` without samples. */
+	/** The 95th percentile latency in milliseconds, or `null` without samples. */
 	p95: number | null;
+	/** The number of requests measured. */
 	requests: number;
 }
 
 /**
+ * A request path with one of the highest latencies.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/performance
  */
 export interface APINetworkPerformanceSlowestPath {
+	/** The request path. */
 	path: string;
-	/** Milliseconds; `null` without samples. */
+	/** The 95th percentile latency in milliseconds, or `null` without samples. */
 	p95: number | null;
-	/** Milliseconds; `null` without samples. */
+	/** The 99th percentile latency in milliseconds, or `null` without samples. */
 	p99: number | null;
+	/** The number of requests measured. */
 	requests: number;
 }
 
 /**
- * Latency percentiles plus per-country/per-colo breakdowns and the slowest
- * paths. Available on Pro+ plans.
+ * The latency of an application's default domain and custom domain, by time,
+ * country and edge location, with the slowest paths. Network performance is
+ * available on the Pro and Enterprise plans.
  *
- * May also be an empty object `{}` when the requested window precedes the
- * application's creation date — see {@link APINetworkPerformancePayload}.
+ * The response is an empty object when the requested window starts before
+ * the application was created, as {@link APINetworkPerformancePayload} shows.
  *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/network/performance
  */
@@ -380,85 +463,91 @@ export interface APINetworkPerformance {
 }
 
 /**
- * Payload of `/v2/apps/{appId}/network/performance`. `response` may be an
- * empty object `{}` when the requested window precedes the application's
- * creation date — guard with `'summary' in payload.response` before accessing
- * fields.
+ * The response envelope of the network performance. `response` is an empty
+ * object when the requested window starts before the application was
+ * created, so check for `summary` with `"summary" in payload.response` before
+ * you read the fields.
  */
 export type APINetworkPerformancePayload = APIPayload<
 	APINetworkPerformance | Record<string, never>
 >;
 
 /**
- * Kind of hostname listed by `GET /v2/apps/domains` — `subdomain` for the
- * default `*.squareweb.app` hostname, `custom` for an attached custom domain.
+ * The kind of a hostname: `subdomain` for the default `*.squareweb.app`
+ * hostname and `custom` for an attached custom domain.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/domains
  */
 export type APIAppDomainType = "subdomain" | "custom";
+/** The {@link APIAppDomainType} values by name. */
 export const APIAppDomainType = {
 	Subdomain: "subdomain",
 	Custom: "custom",
 } as const;
 
 /**
- * One hostname configured on one of the account's applications, as returned
- * by `GET /v2/apps/domains`. Custom domains are listed first, followed by the
- * default subdomains; applications without a web domain are omitted.
+ * One hostname of one of your applications.
  *
- * Served from the cached project list (does not count against per-application
- * network rate limits). Rate limited to 20 requests per 60s per user.
+ * The domain listing shows custom domains first, then default subdomains,
+ * and leaves out applications without a web domain. It does not count
+ * against the network limits of each application, and you can call it up to
+ * 20 times a minute.
  *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/domains
  */
 export interface APIAppDomain {
-	/** Application the domain belongs to. */
+	/** The application the hostname belongs to. */
 	app_id: ApplicationId;
 	/** The fully qualified hostname. */
 	hostname: string;
 	type: APIAppDomainType;
 }
 
+/** The response envelope that carries a list of {@link APIAppDomain}. */
 export type APIAppDomainsPayload = APIPayload<APIAppDomain[]>;
 
 /**
- * Application serving a load-balanced custom domain.
+ * An application that serves a custom domain.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/load-balancers
  */
 export interface APILoadBalancerApp {
 	id: ApplicationId;
+	/** The application name. */
 	name: string;
-	/** Cluster currently hosting the application. */
+	/** The cluster that hosts the application. */
 	cluster?: string;
 }
 
 /**
- * One custom domain and the applications serving it. A group with two or more
- * applications is an active load balancer — traffic is balanced across them
- * at the edge, with automatic failover when an application is offline.
+ * One custom domain and the applications that serve it. With two or more
+ * applications, the domain is an active load balancer: the edge spreads
+ * traffic across them and fails over when one is offline.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/load-balancers
  */
 export interface APILoadBalancer {
 	/** The custom domain. */
 	hostname: string;
+	/** The applications that serve the domain. */
 	apps: APILoadBalancerApp[];
 }
 
 /**
- * Response of `GET /v2/apps/load-balancers` — the caller's applications
- * grouped by attached custom domain.
- *
- * Served from the cached project list. Rate limited to 20 requests per 60s
- * per user.
+ * Your applications grouped by the custom domain they serve. You can call
+ * the listing up to 20 times a minute.
  *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/load-balancers
  */
 export interface APILoadBalancers {
 	/**
-	 * Maximum applications allowed on one domain for the caller's plan:
-	 * 2 on Standard, 5 on Pro, 10 on Enterprise.
+	 * How many applications can share one domain on your plan: 2 on
+	 * Standard, 5 on Pro and 10 on Enterprise.
 	 */
 	limit: number;
+	/** The custom domains. It is empty when no application has a custom domain. */
 	balancers: APILoadBalancer[];
 }
 
+/** The response envelope that carries {@link APILoadBalancers}. */
 export type APILoadBalancersPayload = APIPayload<APILoadBalancers>;

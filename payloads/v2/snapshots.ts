@@ -1,39 +1,45 @@
 import type { APIPayload, ISODateString } from "../../common/v2";
 
 /**
- * APISnapshot#origin — `automatic` for the daily scheduled snapshot, `manual`
- * when a user (or the AI agent) requested it.
+ * How a snapshot was made: `automatic` for the daily scheduled snapshot and
+ * `manual` when a user or the AI agent asked for it.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/snapshots
  */
 export type SnapshotOrigin = "automatic" | "manual";
 
 /**
- * Snapshot rate limits: 1 request per 5s per user and 1 per 3min per resource
- * on creation, plus a per-plan daily quota — exhausting it returns
- * `429 DAILY_SNAPSHOTS_LIMIT_REACHED` (distinct from the short `KEEP_CALM`
- * retry 429). Listings are cached for 30 minutes.
+ * One stored snapshot of an application or database.
+ *
+ * Snapshot listings are cached for 30 minutes. When snapshot storage cannot
+ * answer, a listing fails with 503 `SNAPSHOTS_UNAVAILABLE`, and the snapshots
+ * themselves are not affected.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/snapshots
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/snapshots
  */
 export interface APISnapshot {
-	/** Snapshot identifier (zip name without extension). Pass it as `snapshotId` to restore. */
+	/** The snapshot id, the archive name without its extension. Pass it as `snapshotId` to restore. */
 	name: string;
-	/** Size in bytes. */
+	/** The size in bytes. */
 	size: number;
+	/** When the snapshot was last modified. */
 	modified: ISODateString;
-	/** Signed query string used to compose the download URL. */
+	/** The signed query string used to build the download URL. */
 	key: string;
-	/** Storage version of this snapshot. Pass it as `versionId` to restore. */
+	/** The storage version of the snapshot. Pass it as `versionId` to restore. */
 	version_id: string;
-	/** Signed download URL, valid for 30 days. */
+	/** The signed download URL, valid for 1 hour. */
 	url: string;
 	/**
-	 * What the archive holds: the database engine or the app language.
-	 * `null` on older snapshots.
+	 * What the archive holds: the database engine, such as `postgres`, or the
+	 * application language, such as `javascript`. It is `null` on older
+	 * snapshots.
 	 */
 	runtime?: string | null;
-	/** `null` on older snapshots. */
+	/** How the snapshot was made. It is `null` on older snapshots. */
 	origin?: SnapshotOrigin | null;
 }
 
+/** The response envelope that carries a list of {@link APISnapshot}. */
 export type APISnapshotsPayload = APIPayload<APISnapshot[]>;

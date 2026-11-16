@@ -1,27 +1,30 @@
 import type { ApplicationStatus } from "./status";
 
 /**
- * `event:` names emitted on the realtime SSE stream
- * (`GET /v2/apps/{appId}/realtime`):
- * - `system`: protocol signal, see {@link APIRealtimeSystemEvent}
- * - `logs`: one log line; a leading `\u0001` marks stdout and `\u0002`
- *   stderr (no prefix = stdout)
- * - `status`: container metrics as a JSON string, see {@link APIRealtimeStatus}
- * - `error`: an error code such as `CONTAINER_NOT_FOUND`
+ * The `event:` names of an application's realtime stream, a Server-Sent
+ * Events connection that sends status changes, live metrics and log lines.
  *
- * Connection limits: at most 5 simultaneous connections per user and 30 per
- * application — exceeding them returns `REALTIME_MAX_CONNECTIONS` /
- * `REALTIME_MAX_CONNECTIONS_APP`. Each connection has a 10-minute TTL with one
- * transparent internal reconnection; clients must reconnect when the TTL
- * expires.
+ * - `system` carries a connection signal, see {@link APIRealtimeSystemEvent}.
+ * - `logs` carries one log line. A first character of `\u0001` marks
+ *   standard output and `\u0002` marks standard error, and a line without
+ *   that character is standard output.
+ * - `status` carries live metrics as a JSON string, see
+ *   {@link APIRealtimeStatus}.
+ * - `error` carries an error code such as `CONTAINER_NOT_FOUND`.
+ *
+ * You can keep up to 5 connections open, and an application accepts up to 30
+ * across all users. More are refused with 429 `REALTIME_MAX_CONNECTIONS` or
+ * `REALTIME_MAX_CONNECTIONS_APP`. A connection lasts up to 10 minutes, so
+ * reconnect when it ends.
  *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/realtime
  */
 export type APIRealtimeEventName = "system" | "logs" | "status" | "error";
 
 /**
- * Signals carried by `event: system` frames. `REALTIME_CONNECTING` is sent as
+ * The signals that `system` events carry. The connect signal arrives as
  * `REALTIME_CONNECTING | <sseId>`.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/realtime
  */
 export type APIRealtimeSystemEvent =
@@ -30,6 +33,7 @@ export type APIRealtimeSystemEvent =
 	| "REALTIME_DISCONNECTED"
 	| "REALTIME_RECONNECT"
 	| "REALTIME_ERROR";
+/** The {@link APIRealtimeSystemEvent} values by name. */
 export const APIRealtimeSystemEvent = {
 	Connecting: "REALTIME_CONNECTING",
 	Timeout: "REALTIME_TIMEOUT",
@@ -39,28 +43,36 @@ export const APIRealtimeSystemEvent = {
 } as const;
 
 /**
- * Complete `event: status` frame — the first frame of each (re)connection.
+ * A complete `status` event, the first one of each connection. Later
+ * `status` events carry only some fields, see
+ * {@link APIRealtimeStatusUpdate}.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/realtime
  */
 export interface APIRealtimeStatus {
-	/** CPU usage percentage. */
+	/** The CPU usage, as a percentage. */
 	cpu: number;
-	/** Number of CPU cores allocated. */
+	/** The number of CPU cores allocated. */
 	cpuLimit: number;
-	/** `[usedMB, limitMB]`. */
+	/** The memory in use and the memory limit, in MB, as `[used, limit]`. */
 	ram: [number, number];
 	status: ApplicationStatus;
-	/** Network bytes in/out; `new` is bytes per second. */
+	/**
+	 * The network bytes in (`i`) and out (`o`). `new` holds the current rate,
+	 * in bytes per second.
+	 */
 	netIO: { i: number; o: number; new: { i: number; o: number } };
-	/** Block I/O bytes in/out. */
+	/** The disk bytes read (`i`) and written (`o`). */
 	bIO: { i: number; o: number };
-	/** Unix timestamp (ms) at which the container started. */
+	/** When the application started, as a Unix timestamp in milliseconds. */
 	uptime: number;
 }
 
 /**
- * Later `event: status` frames carry only the live fields. Merge each one onto
- * the last complete {@link APIRealtimeStatus} frame.
+ * A `status` event after the first one of a connection, with only the live
+ * fields. Merge each one onto the last complete {@link APIRealtimeStatus} and
+ * keep the earlier values of the missing fields.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/realtime
  */
 export type APIRealtimeStatusUpdate = Pick<

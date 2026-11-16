@@ -8,10 +8,12 @@ import type {
 import type { APIApplicationStatus } from "./status";
 
 /**
- * Database engine slug.
+ * The engine of a database: MongoDB, MySQL, Redis or PostgreSQL.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/info
  */
 export type DatabaseType = "mongo" | "mysql" | "redis" | "postgres";
+/** The {@link DatabaseType} values by name. */
 export const DatabaseType = {
 	Mongo: "mongo",
 	MySQL: "mysql",
@@ -20,116 +22,155 @@ export const DatabaseType = {
 } as const;
 
 /**
+ * The details of one database: its name, owner, memory, engine and port.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/info
  */
 export interface APIDatabase {
 	id: DatabaseId;
+	/** The display name. */
 	name: string;
+	/** The user id of the database's owner. */
 	owner: UserId;
+	/** The cluster that hosts the database. */
 	cluster: string;
+	/** The memory allocated to the database, in MB. */
 	ram: number;
 	type: DatabaseType;
+	/** The TCP port the database listens on. */
 	port: number;
+	/** When the database was created. */
 	created_at: ISODateString;
 }
 
+/** The response envelope that carries an {@link APIDatabase}. */
 export type APIDatabasePayload = APIPayload<APIDatabase>;
 
 /**
- * Compact database descriptor returned under `response.databases` of
- * `/v2/users/me`. `type` is the engine slug as a plain string.
+ * A short description of one of your databases, as listed in your account
+ * details.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export interface APIDatabaseSummary {
 	id: DatabaseId;
+	/** The display name. */
 	name: string;
+	/** The memory allocated to the database, in MB. */
 	ram: number;
+	/** The engine, such as `postgres`, as a plain string. */
 	type: string;
+	/** The cluster that hosts the database. */
 	cluster: string;
+	/** When the database was created. */
 	created_at: ISODateString;
 }
 
 /**
- * Response of `POST /v2/databases`. `password` (and `certificate` when
- * applicable) are returned only at creation and cannot be recovered later.
+ * The new database, returned when you create one.
+ *
+ * The API shows `password` and `certificate` only in this response and
+ * cannot show them again, so store them right away.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/create
  */
 export interface APIDatabaseCreated {
 	id: DatabaseId;
+	/** The display name. */
 	name: string;
-	/** Allocated memory in MB. */
+	/** The memory allocated to the database, in MB. */
 	memory: number;
-	/** Allocated CPU shares. */
+	/** The CPU shares allocated to the database. */
 	cpu: number;
 	type: DatabaseType;
-	/** One-time database password. Shown only at creation. */
+	/** The database password. It is shown only once. */
 	password: string;
 	/**
-	 * Base64-encoded PEM (private key followed by the certificate) for TLS
-	 * connections. `null` when it could not be produced at creation.
+	 * The TLS file for encrypted connections, base64-encoded: a PEM that
+	 * holds the private key followed by the certificate. It is `null` when
+	 * the certificate could not be produced at creation.
 	 */
 	certificate?: string | null;
-	/** Ready-to-use connection string with the password embedded. */
+	/**
+	 * A ready-to-use connection string with the password included. Its scheme
+	 * follows the engine: `mongodb://`, `postgresql://`, `mysql://`, or
+	 * `rediss://` for Redis, which requires TLS.
+	 */
 	connection_url: string;
+	/** The cluster that hosts the database. */
 	cluster: string;
 }
 
+/** The response envelope that carries an {@link APIDatabaseCreated}. */
 export type APIDatabaseCreatedPayload = APIPayload<APIDatabaseCreated>;
 
 /**
- * Runtime stats for a single database (`GET /v2/databases/{databaseId}/status`).
- * Shares the `RuntimeStats` shape with `APIApplicationStatus`.
+ * The current CPU, memory, network and storage usage of one database. It has
+ * the same shape as {@link APIApplicationStatus}, and `Raw` works the same
+ * way.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/status
  */
 export type APIDatabaseStatus<Raw extends boolean = false> =
 	APIApplicationStatus<Raw>;
 
+/** The response envelope that carries an {@link APIDatabaseStatus}. */
 export type APIDatabaseStatusPayload<Raw extends boolean = false> = APIPayload<
 	APIDatabaseStatus<Raw>
 >;
 
 /**
- * Compact runtime stats entry for `/v2/databases/status`. Same shape as the
- * application list item, branded with `DatabaseId`.
+ * One entry of the runtime stats listing of every database you own. It is
+ * the application entry branded with a {@link DatabaseId}.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/status-all
  */
 export type APIDatabaseStatusListItem<Running extends boolean = boolean> =
 	RuntimeStatsListItem<DatabaseId, Running>;
 
+/** The response envelope that carries a list of {@link APIDatabaseStatusListItem}. */
 export type APIDatabaseStatusListPayload = APIPayload<
 	APIDatabaseStatusListItem[]
 >;
 
 /**
- * Response of `GET /v2/databases/{databaseId}/credentials/certificate`.
+ * The TLS file of a database. The database must be running to read it.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/credentials/certificate
  */
 export interface APIDatabaseCertificate {
-	/** Base64-encoded PEM: private key followed by the certificate. */
+	/** A base64-encoded PEM that holds the private key followed by the certificate. */
 	certificate: string;
 }
 
+/** The response envelope that carries an {@link APIDatabaseCertificate}. */
 export type APIDatabaseCertificatePayload = APIPayload<APIDatabaseCertificate>;
 
 /**
- * Which credential to rotate via `POST /credentials/reset`.
+ * The credential a reset rotates: the database password or its TLS
+ * certificate.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/credentials/reset
  */
 export type DatabaseResetType = "password" | "certificate";
+/** The {@link DatabaseResetType} values by name. */
 export const DatabaseResetType = {
 	Password: "password",
 	Certificate: "certificate",
 } as const;
 
 /**
- * Response body present when `reset: "password"`. Absent for
- * `reset: "certificate"`, which returns a status-only payload.
+ * The new password, returned when you reset the password of a database. A
+ * certificate reset returns no data, and you read the new certificate
+ * separately.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/databases/credentials/reset
  */
 export interface APIDatabaseCredentialsResetPasswordResponse {
-	/** Shown only once for password resets. */
+	/** The new password. It is shown only once. */
 	password: string;
 }
 
+/** The response envelope that carries an {@link APIDatabaseCredentialsResetPasswordResponse}. */
 export type APIDatabaseCredentialsResetPasswordPayload =
 	APIPayload<APIDatabaseCredentialsResetPasswordResponse>;

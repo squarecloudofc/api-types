@@ -1,3 +1,10 @@
+/**
+ * Types for the data the Square Cloud API returns, named with an `API`
+ * prefix.
+ *
+ * @packageDocumentation
+ */
+
 export * from "./application";
 export * from "./database";
 export * from "./deploy";

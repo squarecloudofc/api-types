@@ -8,25 +8,29 @@ import type { ApplicationLanguage } from "./application";
 import type { APIDatabaseSummary } from "./database";
 
 /**
- * Available RAM sizes (GB) for the `hobby` tier.
+ * The memory sizes of the `hobby` plans, in GB.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export type HobbyPlanSizes = 1 | 2;
 
 /**
- * Available RAM sizes (GB) for the `standard` tier.
+ * The memory sizes of the `standard` plans, in GB.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export type StandardPlanSizes = 4 | 6 | 8;
 
 /**
- * Available RAM sizes (GB) for the `pro` tier.
+ * The memory sizes of the `pro` plans, in GB.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export type ProPlanSizes = 12 | 16 | 24;
 
 /**
- * Available RAM sizes (GB) for the `enterprise` tier.
+ * The memory sizes of the `enterprise` plans, in GB.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export type EnterprisePlanSizes =
@@ -50,8 +54,9 @@ export type EnterprisePlanSizes =
 	| 1024;
 
 /**
- * Plan slug returned by `/v2/users/me`. Paid tiers are always suffixed with
- * their RAM size (GB); only `free` has no suffix.
+ * The name of a plan. A paid plan ends with its memory size in GB, such as
+ * `standard-8`, and `free` means the account has no active plan.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export type UserPlanName =
@@ -60,6 +65,7 @@ export type UserPlanName =
 	| `standard-${StandardPlanSizes}`
 	| `pro-${ProPlanSizes}`
 	| `enterprise-${EnterprisePlanSizes}`;
+/** Builds {@link UserPlanName} values from a tier and a size. */
 export const UserPlanName = {
 	Free: "free",
 	Hobby: (size: HobbyPlanSizes) => `hobby-${size}` as const,
@@ -69,68 +75,83 @@ export const UserPlanName = {
 };
 
 /**
- * APIUserPlan#memory
+ * The memory of your plan across all applications and databases, in MB.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export interface APIUserPlanMemory {
+	/** The total memory the plan grants, in MB. */
 	limit: number;
+	/** The memory not allocated yet, which is `limit` minus `used`, in MB. */
 	available: number;
+	/** The memory allocated to applications and databases, in MB. */
 	used: number;
 }
 
 /**
- * APIUser#plan
+ * Your plan and its memory.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export interface APIUserPlan {
 	name: UserPlanName;
-	/** Live memory accounting across all applications and databases, in MB. */
 	memory: APIUserPlanMemory;
 	/**
-	 * Unix timestamp (ms) at which the current plan expires. `null` for plans
-	 * that never expire.
+	 * When the current plan expires, as a Unix timestamp in milliseconds. It
+	 * is `null` when the account has no active plan.
 	 */
 	duration: number | null;
 }
 
 /**
- * APIUser
+ * Your Square Cloud user profile.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export interface APIUser {
 	id: UserId;
-	/** Display name (1-24 chars). */
+	/** The display name, 1 to 24 characters. */
 	name: string;
 	email: string;
 	/**
-	 * Preferred locale (e.g. `pt-BR`, `en-US`, `es-ES`, `zh-CN`, `ja-JP`,
-	 * `fr-FR`, `de-DE`, `it-IT`).
+	 * The preferred locale, such as `pt-BR`, `en-US`, `es-ES`, `zh-CN`,
+	 * `ja-JP`, `fr-FR`, `de-DE` or `it-IT`.
 	 */
 	locale: string;
 	plan: APIUserPlan;
+	/** When the account was created. */
 	created_at: ISODateString;
 }
 
 /**
- * APIUserApplication — compact application descriptor returned under
- * `response.applications` of `/v2/users/me`.
+ * A short description of one of your applications, as listed in your account
+ * details.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export interface APIUserApplication {
 	id: ApplicationId;
+	/** The display name. */
 	name: string;
+	/** The description. The key is omitted when no description is set. */
 	desc?: string;
+	/** The memory allocated to the application, in MB. */
 	ram: number;
 	lang: ApplicationLanguage;
+	/** The cluster that hosts the application. */
 	cluster: string;
-	/** Omitted (or `null`) for apps without a default hostname. */
+	/** The default hostname. It is omitted or `null` when the application has none. */
 	domain?: string | null;
-	/** Omitted (or `null`) when no custom domain is configured. */
+	/** The custom domain. It is omitted or `null` when no custom domain is set. */
 	custom?: string | null;
+	/** When the application was created. */
 	created_at: ISODateString;
 }
 
 /**
+ * Your account details: your profile and plan, with the applications and
+ * databases you own.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/users/me
  */
 export interface APIUserInfo {
@@ -139,4 +160,5 @@ export interface APIUserInfo {
 	databases: APIDatabaseSummary[];
 }
 
+/** The response envelope that carries an {@link APIUserInfo}. */
 export type APIUserInfoPayload = APIPayload<APIUserInfo>;

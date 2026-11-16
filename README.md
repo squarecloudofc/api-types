@@ -6,6 +6,9 @@
 
 <p align="center">Official type definitions for the <a href="https://squarecloud.app" target="_blank">Square Cloud</a> API.</p>
 
+> [!TIP]
+> [`@squarecloud/api`](https://github.com/squarecloudofc/sdk-api-js) 6 ships its own types and is the recommended way to use the Square Cloud API from JavaScript and TypeScript. Use this package when you call the REST API directly, without the SDK.
+
 <div align="center">
   <div style="width: fit-content; display: flex; align-items: flex-start; gap: 4px;">
     <img alt="NPM License" src="https://img.shields.io/npm/l/@squarecloud/api-types">
@@ -28,46 +31,55 @@ pnpm add @squarecloud/api-types
 
 ## Documentation
 
-Visit the [official API reference](https://docs.squarecloud.app/en/api-reference/) for details about every route, payload and error code.
+The [API reference](https://docs.squarecloud.app/en/api-reference/) describes every route, payload and error code. Most types in this package also link to their page there.
 
-## Getting Started
+## Getting started
 
-Specify the desired API version by appending `/v*` to the import path, where `*` is your chosen API version:
+Import the types from `@squarecloud/api-types/v2`, which covers the `/v2` routes of the REST API:
 
 ```ts
-// Importing the API definitions for version 2
-import { APIApplication, APIErrorCode } from "@squarecloud/api-types/v2";
+import type { APIApplicationStatusPayload } from "@squarecloud/api-types/v2";
+
+const res = await fetch(`https://api.squarecloud.app/v2/apps/${appId}/status`, {
+  headers: { Authorization: process.env.SQUARECLOUD_API_KEY ?? "" },
+});
+const payload = (await res.json()) as APIApplicationStatusPayload;
+
+if (payload.status === "success") {
+  console.log(payload.response.cpu, payload.response.ram);
+} else {
+  console.error(payload.code, payload.message);
+}
 ```
 
-You can also import only the specific parts of the module that you need. Your choices include `common/v*`, `utils`, `payloads/v*` and `rest/v*`:
+You can also import one part of the package: `common/v2`, `utils`, `payloads/v2` or `rest/v2`.
 
 ```ts
-// Importing a specific REST endpoint type for version 2
-import { RESTPostAPIApplicationCommitQuery } from "@squarecloud/api-types/rest/v2";
+import type { RESTPostAPIApplicationCommitQuery } from "@squarecloud/api-types/rest/v2";
 ```
 
 > [!NOTE]
-> The `v*` exports (`@squarecloud/api-types/v*`) include the relevant version of `payloads` and `rest`, alongside the `common` and `utils` exports.
+> `@squarecloud/api-types/v2` includes `payloads/v2` and `rest/v2`, together with `common/v2` and `utils`.
 
-## Project Structure
+## Project structure
 
-The exported types for each API version are organized into two main categories:
+The types of each API version fall into two groups:
 
-- Types with an `API` prefix represent payloads you may receive from the REST API.
-- Types with a `REST` prefix represent data that is sent to and received from the REST API.
+- Types with an `API` prefix describe data the REST API returns.
+- Types with a `REST` prefix are named after a route and describe what you send to it and what it returns.
 
-For endpoint options in the `REST` category, they follow a specific structure: `REST<HTTP Method><Type><Query|(JSON|FormData)Body|Result|ResultPayload>`, where the type indicates the expected return data. For example, `RESTPostAPIApplicationCommitQuery` or `RESTPostAPIApplicationUploadResult`.
+`REST` type names follow the pattern `REST<HTTP method><Type><Query|JSONBody|FormDataBody|Result|ResultPayload>`, such as `RESTPostAPIApplicationCommitQuery` or `RESTPostAPIApplicationUploadResult`.
 
-- If a type name ends with `Result`, it represents the expected result when calling its corresponding route.
-- If a type name ends with `ResultPayload`, it represents the raw result you can expect when calling its corresponding route.
+- A name that ends with `Result` is the data the route returns.
+- A name that ends with `ResultPayload` is the whole response, with the `status` envelope around the data.
 
-Machine-readable error codes returned by the API are available through the `APIErrorCode` constant. The list grows over time, so treat a code you do not know as a generic failure of the HTTP status it came with.
+The `APIErrorCode` constant lists the error codes the API returns in `code`, and each code says when it happens and what to do. The list grows over time, so treat a code you do not know as a generic failure of the HTTP status it came with.
 
-## Related Projects
+## Related projects
 
-- [`@squarecloud/api`](https://github.com/squarecloudofc/sdk-api-js) — NodeJS SDK for the Square Cloud API
-- [`@squarecloud/blob`](https://github.com/squarecloudofc/sdk-blob-js) — NodeJS SDK for Square Cloud Blob storage
+- [`@squarecloud/api`](https://github.com/squarecloudofc/sdk-api-js) is the official JavaScript SDK for the Square Cloud API.
+- [`@squarecloud/blob`](https://github.com/squarecloudofc/sdk-blob-js) is the official JavaScript SDK for Square Cloud Blob Storage.
 
 ## Contributing
 
-Bug reports and PRs are welcome at [`squarecloudofc/api-types`](https://github.com/squarecloudofc/api-types).
+Bug reports and pull requests are welcome at [`squarecloudofc/api-types`](https://github.com/squarecloudofc/api-types).

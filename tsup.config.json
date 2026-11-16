@@ -5,7 +5,8 @@
 		"rest/**/*.ts",
 		"common/v2.ts",
 		"utils.ts",
-		"v2.ts"
+		"v2.ts",
+		"!**/*.d.ts"
 	],
 	"outDir": ".",
 	"format": ["cjs", "esm"],

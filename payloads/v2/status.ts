@@ -5,7 +5,8 @@ import type {
 } from "../../common/v2";
 
 /**
- * APIApplicationStatus#status
+ * The lifecycle state of an application or database.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status
  */
 export type ApplicationStatus =
@@ -15,6 +16,7 @@ export type ApplicationStatus =
 	| "restarting"
 	| "deleting"
 	| "running";
+/** The {@link ApplicationStatus} values by name. */
 export const ApplicationStatus = {
 	Exited: "exited",
 	Created: "created",
@@ -25,9 +27,12 @@ export const ApplicationStatus = {
 } as const;
 
 /**
- * APIApplicationStatus#network — network counters. Strings by default
- * (`"<incoming> ↑ <outgoing> ↓"`); two-element `[in, out]` integer arrays
- * with `?rawData=true`.
+ * The network counters of an application or database.
+ *
+ * By default each counter is a string such as `"<incoming> ↑ <outgoing> ↓"`.
+ * With `rawData=true`, set `Raw` to `true` and each counter is an
+ * `[in, out]` pair of integers.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatusNetwork<Raw extends boolean = false> {
@@ -36,39 +41,57 @@ export interface APIApplicationStatusNetwork<Raw extends boolean = false> {
 }
 
 /**
- * Runtime stats for a single application (or database). By default the usage
- * fields come formatted as strings (`"0.5%"`, `"120.4MB"`); pass
- * `?rawData=true` (see the status query type) to receive raw numbers instead —
- * parameterize with `APIApplicationStatus<true>`.
+ * The current CPU, memory, network and storage usage of an application or
+ * database.
+ *
+ * By default the usage fields are formatted strings, such as `"0.5%"` and
+ * `"120.4MB"`. Send `rawData=true`, as
+ * {@link RESTGetAPIApplicationStatusQuery} shows, to get numbers instead,
+ * and type the result as `APIApplicationStatus<true>`.
+ *
  * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status
  */
 export interface APIApplicationStatus<Raw extends boolean = false> {
-	/** CPU usage. Formatted (`"0.5%"`) by default, raw number with `rawData`. */
+	/** The CPU usage, formatted like `"0.5%"` by default or a number with `rawData`. */
 	cpu: Raw extends true ? number : string;
 	/**
-	 * RAM in use (the allocated memory is not included). Formatted in MB
-	 * (`"120.4MB"`) by default, a number of MB with `rawData`.
+	 * The memory in use, without the allocated total. It is formatted in MB
+	 * like `"120.4MB"` by default, or a number of MB with `rawData`.
 	 */
 	ram: Raw extends true ? number : string;
 	status: ApplicationStatus;
-	/** Convenience flag equivalent to `status === "running"`. */
+	/** `true` when `status` is `running`. */
 	running: boolean;
-	/** Storage usage. Formatted by default, raw bytes with `rawData`. */
+	/**
+	 * `true` while a snapshot restore is queued or running. `status` keeps
+	 * the container's own state, which is `exited` while the restore holds it
+	 * stopped.
+	 */
+	restoring?: boolean;
+	/** The storage in use, formatted by default or a number of bytes with `rawData`. */
 	storage: Raw extends true ? number : string;
 	network: APIApplicationStatusNetwork<Raw>;
-	/** Unix timestamp (ms) at which the resource last started. `null` when not running. */
+	/**
+	 * When the resource last started, as a Unix timestamp in milliseconds. It
+	 * is `null` when the resource is not running.
+	 */
 	uptime: number | null;
 }
 
+/** The response envelope that carries an {@link APIApplicationStatus}. */
 export type APIApplicationStatusPayload<Raw extends boolean = false> =
 	APIPayload<APIApplicationStatus<Raw>>;
 
 /**
- * @see /apps/status https://docs.squarecloud.app/en/api-reference/endpoint/apps/status-all
+ * One entry of the runtime stats listing of every application you own, or of
+ * the applications shared with one workspace.
+ *
+ * @see https://docs.squarecloud.app/en/api-reference/endpoint/apps/status-all
  */
 export type APIApplicationStatusAll<Running extends boolean = boolean> =
 	RuntimeStatsListItem<ApplicationId, Running>;
 
+/** The response envelope that carries a list of {@link APIApplicationStatusAll}. */
 export type APIApplicationStatusAllPayload = APIPayload<
 	APIApplicationStatusAll[]
 >;

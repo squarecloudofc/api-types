@@ -23,7 +23,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install Dependencies
@@ -39,5 +39,8 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 permissions:
+  # id-token: npm trusted publishing (OIDC). Without a trusted publisher on
+  # npmjs.com, the publish falls back to NPM_TOKEN.
+  id-token: write
   contents: write
   pull-requests: write
